@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="entry-points" />
+        <module name="mongo-repository" />
+        <module name="event-bus" />
+        <module name="model" />
+        <module name="usecase" />
+        <module name="application" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="domain" target="11" />
+      <module name="driven-adapters" target="11" />
+      <module name="infrastructure" target="11" />
+      <module name="rsocket" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

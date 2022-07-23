@@ -1,0 +1,11 @@
+
+^
+java:S1128"ARemove this unused import 'co.com.challenge.model.juego.Jugador'.(ã´ÑÁ8®ÔÃÌ¢0
+a
+java:S1128"?Remove this unused import 'co.com.challenge.model.juego.Ronda'.(¶’áÁøÿÿÿÿ8®ÔÃÌ¢0
+c
+java:S1128"ARemove this unused import 'co.com.challenge.model.juego.Tablero'.(Şûà¡şÿÿÿÿ8®ÔÃÌ¢0
+g
+java:S1128"ERemove this unused import 'co.com.challenge.model.juego.value.Alias'.(ÒÂ«Ğùÿÿÿÿ8¯ÔÃÌ¢0
+f
+java:S1128"IRemove this unused import 'co.com.challenge.model.juego.value.JugadorId'.(˜¢ÒŠ8¯ÔÃÌ¢0

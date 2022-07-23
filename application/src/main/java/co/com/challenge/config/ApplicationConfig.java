@@ -1,0 +1,103 @@
+package co.com.challenge.config;
+
+import co.com.sofka.business.generic.ServiceBuilder;
+import co.com.sofka.infraestructure.asyn.SubscriberEvent;
+import co.com.sofka.infraestructure.bus.EventBus;
+import co.com.sofka.infraestructure.repository.EventStoreRepository;
+import org.reactivecommons.utils.ObjectMapperI;
+import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer;
+import org.springframework.boot.autoconfigure.mongo.MongoProperties;
+import org.springframework.boot.autoconfigure.mongo.MongoPropertiesClientSettingsBuilderCustomizer;
+import org.springframework.boot.autoconfigure.mongo.ReactiveMongoClientFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.core.env.Environment;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
+
+@Configuration
+@ComponentScan(basePackages = {"co.com.challenge*","co.com.challenge.usecase","co.com.challenge.model","co.com.challenge.controller"},
+        includeFilters = {
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+UseCase$"),
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+Repository$"),
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+Adapter$"),
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+Controller$"),
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+Handler$")
+        },
+        useDefaultFilters = false)
+public class ApplicationConfig {
+
+
+    private String origin = "*";
+    public static final String EXCHANGE = "juego-heroes";
+
+    @Bean
+    public MongoDBSecret dbSecret(Environment env) {
+        return new MongoDBSecret(env.getProperty("spring.data.mongodb.uri"));
+    }
+
+    @Bean
+    public ReactiveMongoClientFactory mongoProperties(MongoDBSecret secret, Environment env) {
+        MongoProperties properties = new MongoProperties();
+        properties.setUri(secret.getUri());
+        List<MongoClientSettingsBuilderCustomizer> list = new ArrayList<>();
+        list.add(new MongoPropertiesClientSettingsBuilderCustomizer(properties, env));
+        return new ReactiveMongoClientFactory(list);
+    }
+
+    @Bean
+    public ObjectMapperI objectMapper() {
+        return new ObjectMapperI();
+    }
+
+    @Bean
+    public SubscriberEvent subscriberEvent(EventStoreRepository eventStoreRepository, EventBus eventBus) {
+        return new SubscriberEvent(eventStoreRepository, eventBus);
+    }
+
+    @Bean
+    public ServiceBuilder serviceBuilder(
+    ) {
+        ServiceBuilder serviceBuilder = new ServiceBuilder();
+        return serviceBuilder;
+    }
+
+    @Bean
+    public RabbitAdmin rabbitmqAdmin(RabbitTemplate rabbitmqTemplate) {
+        var admin = new RabbitAdmin(rabbitmqTemplate);
+        admin.declareExchange(new TopicExchange(EXCHANGE));
+        return admin;
+    }
+
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        return new ServerEndpointExporter();
+    }
+
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                if (!origin.isBlank()) {
+                    Logger.getLogger("config").info("Allowed Origin ==> " + origin);
+                    registry.addMapping("/**").allowedOrigins(origin);
+                }
+            }
+        };
+    }
+
+}
