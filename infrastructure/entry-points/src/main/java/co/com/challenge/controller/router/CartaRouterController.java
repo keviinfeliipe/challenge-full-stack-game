@@ -15,11 +15,11 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 public class CartaRouterController {
     @Bean
     public RouterFunction<ServerResponse> routerFunction(CartaHandler handler) {
-        return route(POST("/api/v1/carta"), handler::save)
-                .andRoute(GET("/api/v1/carta"), handler::findAll )
-                .andRoute(GET("/api/v1/carta/{id}"), handler::findById)
-                .andRoute(PUT("/api/v1/carta/{id}"), handler::update)
-                .andRoute(DELETE("/api/v1/carta/{id}"), handler::delete)
-                .andRoute(GET("/api/v1/carta/hola"), handler::hola);
+        return route(POST("/api/v2/carta"), handler::save)
+                .andRoute(GET("/api/v2/carta"), handler::findAll )
+                .andRoute(GET("/api/v2/carta/{id}"), handler::findById)
+                .andRoute(PUT("/api/v2/carta/{id}"), handler::update)
+                .andRoute(DELETE("/api/v2/carta/{id}"), handler::delete)
+                .andRoute(GET("/api/v2/carta/hola"), handler::hola);
     }
 }

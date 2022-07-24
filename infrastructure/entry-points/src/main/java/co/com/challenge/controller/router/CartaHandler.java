@@ -1,6 +1,6 @@
 package co.com.challenge.controller.router;
 
-import co.com.challenge.model.carta.Carta;
+import co.com.challenge.model.carta.CartaMaestra;
 import co.com.challenge.usecase.CartaUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -26,7 +26,7 @@ public class CartaHandler {
     }
 
     public Mono<ServerResponse> save(ServerRequest request){
-        var carta = request.bodyToMono(Carta.class);
+        var carta = request.bodyToMono(CartaMaestra.class);
 
         return carta.flatMap(pet1 -> {
             return useCase.save(pet1)
@@ -40,7 +40,7 @@ public class CartaHandler {
     public Mono<ServerResponse> findAll(ServerRequest request){
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(useCase.findAll(), Carta.class);
+                .body(useCase.findAll(), CartaMaestra.class);
     }
 
     public Mono<ServerResponse> findById(ServerRequest request){
@@ -55,7 +55,7 @@ public class CartaHandler {
 
     public Mono<ServerResponse> update(ServerRequest request){
         var id = request.pathVariable("id");
-        var petRequest = request.bodyToMono(Carta.class);
+        var petRequest = request.bodyToMono(CartaMaestra.class);
         var petDB = useCase.findById(id);
         return petDB
                 .zipWith(petRequest, (car, req) -> {
@@ -67,7 +67,7 @@ public class CartaHandler {
                 }).flatMap(car -> ServerResponse
                         .created(URI.create("/api/usecase/pet/".concat(car.getId())))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(useCase.save(car),Carta.class))
+                        .body(useCase.save(car), CartaMaestra.class))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 

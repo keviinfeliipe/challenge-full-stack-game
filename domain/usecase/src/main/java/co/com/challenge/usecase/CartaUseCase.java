@@ -1,6 +1,6 @@
 package co.com.challenge.usecase;
 
-import co.com.challenge.model.carta.Carta;
+import co.com.challenge.model.carta.CartaMaestra;
 import co.com.challenge.model.carta.gateway.CartaRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -13,15 +13,15 @@ public class CartaUseCase {
         this.repository = repository;
     }
 
-    public Mono<Carta> save(Carta pet) {
-        return repository.save(pet);
+    public Mono<CartaMaestra> save(CartaMaestra carta) {
+        return repository.save(carta);
     }
 
-    public Flux<Carta> findAll() {
+    public Flux<CartaMaestra> findAll() {
         return repository.findAll();
     }
 
-    public Mono<Carta> findById(String id) {
+    public Mono<CartaMaestra> findById(String id) {
         return repository.findById(id);
     }
 

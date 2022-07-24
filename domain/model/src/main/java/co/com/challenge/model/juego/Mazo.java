@@ -1,41 +1,47 @@
 package co.com.challenge.model.juego;
 
-import co.com.sofka.domain.generic.ValueObject;
+import co.com.challenge.model.juego.value.MazoId;
+import co.com.sofka.domain.generic.Entity;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Mazo implements ValueObject<Mazo.Values> {
+public class Mazo extends Entity<MazoId> {
 
-    private final Set<Carta> cartas;
-    private final Integer cantidad;
+    private Set<Carta> cartas;
+    private Integer cantidad;
 
-    public Mazo(Set<Carta> cartas) {
-        Objects.requireNonNull(cartas);
+    public Mazo() {
+        super(new MazoId());
         this.cartas = new HashSet<>();
-        this.cantidad = 5;
+        this.cantidad = 0;
+    }
+
+    public void agregarCarta(Carta carta){
+        this.cartas.add(carta);
+        this.cantidad+=1;
+    }
+
+    public void quitarCarta(Carta carta){
+        this.cartas.remove(carta);
+        this.cantidad-=1;
+    }
+
+    public Set<Carta> cartas() {
+        return cartas;
+    }
+
+    public Integer cantidad() {
+        return cantidad;
     }
 
     @Override
-    public Values value() {
-        return new Values() {
-            @Override
-            public Set<Carta> cartas() {
-                return cartas;
-            }
-
-            @Override
-            public Integer cantidad() {
-                return cantidad;
-            }
-        };
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Mazo{");
+        sb.append("cartas=").append(cartas);
+        sb.append(", cantidad=").append(cantidad);
+        sb.append('}');
+        return sb.toString();
     }
-
-
-    public interface Values {
-        Set<Carta> cartas();
-        Integer cantidad();
-    }
-
 }

@@ -3,23 +3,20 @@ package co.com.challenge.model.juego;
 import co.com.challenge.model.juego.value.CartaId;
 import co.com.challenge.model.juego.value.EstaHabilitada;
 import co.com.challenge.model.juego.value.EstaOculta;
+import co.com.challenge.model.juego.value.Xp;
 import co.com.sofka.domain.generic.Entity;
 
 public class Carta extends Entity<CartaId> {
 
-    private String cartaId;
     private EstaOculta oculta;
     private EstaHabilitada habilitada;
+    private Xp xp;
 
-    public Carta(CartaId entityId, String cartaId, EstaOculta oculta, EstaHabilitada habilitada) {
-        super(entityId);
-        this.cartaId = cartaId;
-        this.oculta = oculta;
-        this.habilitada = habilitada;
-    }
-
-    public String cartaId() {
-        return cartaId;
+    public Carta(CartaId cartaId, Xp xp) {
+        super(cartaId);
+        this.xp = xp;
+        this.oculta = new EstaOculta(true);
+        this.habilitada = new EstaHabilitada(true);
     }
 
     public EstaOculta oculta() {
@@ -30,4 +27,13 @@ public class Carta extends Entity<CartaId> {
         return habilitada;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Carta{");
+        sb.append("oculta=").append(oculta);
+        sb.append(", habilitada=").append(habilitada);
+        sb.append(", xp=").append(xp);
+        sb.append('}');
+        return sb.toString();
+    }
 }

@@ -1,6 +1,9 @@
 package co.com.challenge.config;
 
+import co.com.challenge.usecase.listeners.RepartirCartasUseCase;
+import co.com.challenge.usecase.listeners.CrearRondaUseCase;
 import co.com.sofka.business.generic.ServiceBuilder;
+import co.com.sofka.business.generic.UseCase;
 import co.com.sofka.infraestructure.asyn.SubscriberEvent;
 import co.com.sofka.infraestructure.bus.EventBus;
 import co.com.sofka.infraestructure.repository.EventStoreRepository;
@@ -8,7 +11,6 @@ import org.reactivecommons.utils.ObjectMapperI;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.boot.autoconfigure.mongo.MongoPropertiesClientSettingsBuilderCustomizer;
@@ -24,6 +26,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 
@@ -75,6 +78,17 @@ public class ApplicationConfig {
     }
 
     @Bean
+    public Set<UseCase.UseCaseWrap> listUseCasesForListener(
+            RepartirCartasUseCase repartirCartasUseCase,
+            CrearRondaUseCase crearRondaUseCase
+    ) {
+        return Set.of(
+                new UseCase.UseCaseWrap("juego.CartasMazoPrincipalAgregadas", (UseCase) repartirCartasUseCase),
+                new UseCase.UseCaseWrap("juego.CartasRepartidas",(UseCase) crearRondaUseCase)
+        );
+    }
+
+    @Bean
     public RabbitAdmin rabbitmqAdmin(RabbitTemplate rabbitmqTemplate) {
         var admin = new RabbitAdmin(rabbitmqTemplate);
         admin.declareExchange(new TopicExchange(EXCHANGE));
@@ -85,7 +99,6 @@ public class ApplicationConfig {
     public ServerEndpointExporter serverEndpointExporter() {
         return new ServerEndpointExporter();
     }
-
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {

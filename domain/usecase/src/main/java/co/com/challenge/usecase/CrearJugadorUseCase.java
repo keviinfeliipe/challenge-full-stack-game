@@ -3,9 +3,11 @@ package co.com.challenge.usecase;
 import co.com.challenge.model.juego.Juego;
 import co.com.challenge.model.juego.command.CrearJugadorCommand;
 import co.com.challenge.model.juego.value.JuegoId;
+
 import co.com.sofka.business.generic.UseCase;
 import co.com.sofka.business.support.RequestCommand;
 import co.com.sofka.business.support.ResponseEvents;
+
 
 public class CrearJugadorUseCase extends UseCase<RequestCommand<CrearJugadorCommand>, ResponseEvents> {
     @Override
@@ -16,3 +18,5 @@ public class CrearJugadorUseCase extends UseCase<RequestCommand<CrearJugadorComm
         emit().onResponse(new ResponseEvents(juego.getUncommittedChanges()));
     }
 }
+
+

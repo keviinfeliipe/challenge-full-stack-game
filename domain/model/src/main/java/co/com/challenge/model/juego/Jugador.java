@@ -6,7 +6,7 @@ import co.com.challenge.model.juego.value.Puntaje;
 import co.com.challenge.model.juego.value.UsuarioId;
 import co.com.sofka.domain.generic.Entity;
 
-import java.util.Set;
+import java.util.Objects;
 
 public class Jugador extends Entity<JugadorId> {
 
@@ -19,15 +19,17 @@ public class Jugador extends Entity<JugadorId> {
         super(entityId);
         this.alias = alias;
         this.puntaje = new Puntaje(0);
+        this.mazo = new Mazo();
     }
 
-    public void agregarMazo(Set<Carta> cartas){
-        this.mazo = new Mazo(cartas);
+    public void agregarCartaAJugador(Carta carta){
+        Objects.requireNonNull(carta);
+        this.mazo.agregarCarta(carta);
     }
 
-    public void quitarCarta(Carta carta){
-        this.mazo.value().cartas().remove(carta);
-        this.mazo.value().cantidad();
+    public void quitarCartaAJugador(Carta carta){
+        Objects.requireNonNull(carta);
+        this.mazo.quitarCarta(carta);
     }
 
     public Alias alias() {
@@ -40,5 +42,16 @@ public class Jugador extends Entity<JugadorId> {
 
     public Puntaje puntaje() {
         return puntaje;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Jugador{");
+        sb.append("usuarioId=").append(usuarioId);
+        sb.append(", alias=").append(alias);
+        sb.append(", mazo=").append(mazo);
+        sb.append(", puntaje=").append(puntaje);
+        sb.append('}');
+        return sb.toString();
     }
 }

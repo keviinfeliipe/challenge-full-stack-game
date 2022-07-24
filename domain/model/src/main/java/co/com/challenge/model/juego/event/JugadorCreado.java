@@ -1,8 +1,5 @@
 package co.com.challenge.model.juego.event;
 
-import co.com.challenge.model.juego.value.Alias;
-import co.com.challenge.model.juego.value.JugadorId;
-import co.com.challenge.model.juego.value.Puntaje;
 import co.com.sofka.domain.generic.DomainEvent;
 
 public class JugadorCreado extends DomainEvent {
