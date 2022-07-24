@@ -6,5 +6,3 @@ spring:
   data:
     mongodb:
       uri: "mongodb+srv://sofka:sofka@sofka.58bqo.mongodb.net/game?authSource=admin&compressors=zlib&retryWrites=true&w=majority&ssl=true"
-  rabbitmq:
-    addresses: "amqps://qqtbnckp:uRNluVYL_k1lp_B9HfY966hbnqgCKi2B@jackal.rmq.cloudamqp.com/qqtbnckp"

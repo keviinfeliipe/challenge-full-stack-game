@@ -29,18 +29,19 @@ public class JuegoController {
     private EventStoreRepository eventStoreRepository;
     private SubscriberEvent subscriberEvent;
     private JugarCartaUseCase jugarCartaUseCase;
-    private IniciarJuegoUseCase iniciarJuegoUseCase;
+    private AgregarCartasMazoPrincipalUseCase agregarCartasMazoPrincipalUseCase;
 
     public JuegoController(CrearJuegoUseCase useCase,
                            CrearJugadorUseCase crearJugadorUseCase,
                            EventStoreRepository eventStoreRepository,
-                           SubscriberEvent subscriberEvent, JugarCartaUseCase jugarCartaUseCase, IniciarJuegoUseCase iniciarJuegoUseCase) {
+                           SubscriberEvent subscriberEvent, JugarCartaUseCase jugarCartaUseCase,
+                           AgregarCartasMazoPrincipalUseCase iniciarJuegoUseCase) {
         this.crearJuegoUseCase = useCase;
         this.crearJugadorUseCase = crearJugadorUseCase;
         this.eventStoreRepository = eventStoreRepository;
         this.subscriberEvent = subscriberEvent;
         this.jugarCartaUseCase = jugarCartaUseCase;
-        this.iniciarJuegoUseCase = iniciarJuegoUseCase;
+        this.agregarCartasMazoPrincipalUseCase = iniciarJuegoUseCase;
     }
 
     @PostMapping("/crearjuego")
@@ -51,8 +52,8 @@ public class JuegoController {
                 .asyncExecutor(crearJuegoUseCase, new RequestCommand<>(command))
                 .subscribe(subscriberEvent);
         return ResponseEntity.created(URI.create(""))
-                        .contentType(MediaType.APPLICATION_JSON)
-                                .body(command.getJuegoId());
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(command.getJuegoId());
     }
 
 
@@ -91,9 +92,9 @@ public class JuegoController {
 
     @GetMapping("/iniciarjuego/{id}")
     public ResponseEntity<String> iniciarJuego(@PathVariable String id){
-        iniciarJuegoUseCase.addRepository(domainEventRepository());
+        agregarCartasMazoPrincipalUseCase.addRepository(domainEventRepository());
         UseCaseHandler.getInstance()
-                .asyncExecutor(iniciarJuegoUseCase, new RequestCommand<>(new IniciarJuegoCommand(id)))
+                .asyncExecutor(agregarCartasMazoPrincipalUseCase, new RequestCommand<>(new IniciarJuegoCommand(id)))
                 .subscribe(subscriberEvent);
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)

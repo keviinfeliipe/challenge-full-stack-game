@@ -22,6 +22,7 @@ public class JuegoChange extends EventChange {
             juego.jugadores.add(new Jugador(JugadorId.of(event.getJugadorId()), new Alias(event.getAlias())));
             juego.mazo = new Mazo();
             juego.jugando=false;
+            juego.tablero=null;
         });
 
         apply((JugadorCreado event)->{

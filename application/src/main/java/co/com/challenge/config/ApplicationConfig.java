@@ -1,7 +1,7 @@
 package co.com.challenge.config;
 
-import co.com.challenge.usecase.listeners.RepartirCartasUseCase;
 import co.com.challenge.usecase.listeners.CrearRondaUseCase;
+import co.com.challenge.usecase.listeners.RepartirCartasUseCase;
 import co.com.challenge.usecase.listeners.xUseCase;
 import co.com.sofka.business.generic.ServiceBuilder;
 import co.com.sofka.business.generic.UseCase;
@@ -21,9 +21,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.core.env.Environment;
-import org.springframework.web.socket.server.standard.ServerEndpointExporter;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import java.util.ArrayList;
 import java.util.List;

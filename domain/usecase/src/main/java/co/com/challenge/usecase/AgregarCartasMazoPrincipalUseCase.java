@@ -14,11 +14,11 @@ import co.com.sofka.business.support.ResponseEvents;
 
 import java.util.Objects;
 
-public class IniciarJuegoUseCase extends UseCase<RequestCommand<IniciarJuegoCommand>, ResponseEvents> {
+public class AgregarCartasMazoPrincipalUseCase extends UseCase<RequestCommand<IniciarJuegoCommand>, ResponseEvents> {
 
     private final CartaRepository cartaRepository;
 
-    public IniciarJuegoUseCase(CartaRepository cartaRepository) {
+    public AgregarCartasMazoPrincipalUseCase(CartaRepository cartaRepository) {
         this.cartaRepository = cartaRepository;
     }
 

@@ -19,7 +19,7 @@ public class Tablero extends Entity<TableroId> {
         super(new TableroId());
         this.cartaMap = new HashMap<>();
         this.tiempo = new Tiempo(60);
-        this.habilitado = new EstaHabilitado(true);
+        this.habilitado = new EstaHabilitado(false);
     }
 
     public void restablecerTiempo(){
