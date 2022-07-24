@@ -23,5 +23,3 @@ F
 [infrastructure/entry-points/src/main/java/co/com/challenge/controller/SocketController.java,f/b/fb24a4d57b1db0a91dd1f37b81f3ca46e19c594e
 Š
 Zinfrastructure/entry-points/src/main/java/co/com/challenge/controller/CartaController.java,c/1/c1760676f99d65a49882930135821b7e10dc3b92
-Š
-Zinfrastructure/entry-points/src/main/java/co/com/challenge/controller/JuegoController.java,a/f/af24accf22e512a6a6f0e1aff76cefded92c7f59

@@ -15,11 +15,19 @@ public class Tablero extends Entity<TableroId> {
     private Tiempo tiempo;
     private EstaHabilitado habilitado;
 
-    public Tablero(Tiempo tiempo) {
+    public Tablero() {
         super(new TableroId());
         this.cartaMap = new HashMap<>();
-        this.tiempo = tiempo;
-        this.habilitado = new EstaHabilitado(false);
+        this.tiempo = new Tiempo(60);
+        this.habilitado = new EstaHabilitado(true);
+    }
+
+    public void restablecerTiempo(){
+        this.tiempo = new Tiempo(60);
+    }
+
+    public void descontarTiempo(){
+        this.tiempo = new Tiempo(this.tiempo.value()-1);
     }
 
     public Map<JugadorId, Carta> cartaMap() {

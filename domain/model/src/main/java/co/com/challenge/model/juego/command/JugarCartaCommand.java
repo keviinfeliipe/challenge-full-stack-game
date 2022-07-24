@@ -4,9 +4,12 @@ import co.com.sofka.domain.generic.Command;
 
 public class JugarCartaCommand extends Command {
 
-    private final String juegoId;
-    private final String jugadorId;
-    private final String cartaId;
+    private String juegoId;
+    private String jugadorId;
+    private String cartaId;
+
+    public JugarCartaCommand() {
+    }
 
     public JugarCartaCommand(String juegoId, String jugadorId, String cartaId) {
         this.juegoId = juegoId;

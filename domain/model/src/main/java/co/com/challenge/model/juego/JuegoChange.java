@@ -34,7 +34,7 @@ public class JuegoChange extends EventChange {
         });
 
         apply((TableroCreado event)->{
-            juego.tablero= new Tablero(new Tiempo(1000));
+            juego.tablero= new Tablero();
         });
 
         apply((JuegoIniciado event)->{
@@ -53,10 +53,12 @@ public class JuegoChange extends EventChange {
         apply((CartaJugada event)->{
             var jugador = juego.buscarJugadorPorId(JugadorId.of(event.getJugadorId()));
             var carta = jugador.mazo().cartas().stream()
-                    .filter(carta1 -> carta1.identity().equals(event.getCartaId()))
+                    .filter(carta1 -> carta1.identity().value().equals(event.getCartaId()))
                     .findFirst()
                     .orElseThrow();
-            jugador.quitarCartaAJugador(carta);
+            if(juego.tablero.habilitado().value()){
+                jugador.quitarCartaAJugador(carta);
+            }
             juego.tablero.cartaMap().put(jugador.identity(),carta);
         });
 
@@ -87,6 +89,14 @@ public class JuegoChange extends EventChange {
         apply((CartasMazoPrincipalAgregadas event)->{
             event.getFactory().cartas()
                     .forEach(carta -> juego.mazo().agregarCarta(carta));
+        });
+
+        apply((CronometroRestablecido event)->{
+            juego.tablero().restablecerTiempo();
+        });
+
+        apply((TiempoDescontado event)->{
+            juego.tablero.descontarTiempo();
         });
 
         apply((GanadorDeterminado event)->{

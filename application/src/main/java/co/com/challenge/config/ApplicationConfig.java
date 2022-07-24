@@ -2,6 +2,7 @@ package co.com.challenge.config;
 
 import co.com.challenge.usecase.listeners.RepartirCartasUseCase;
 import co.com.challenge.usecase.listeners.CrearRondaUseCase;
+import co.com.challenge.usecase.listeners.xUseCase;
 import co.com.sofka.business.generic.ServiceBuilder;
 import co.com.sofka.business.generic.UseCase;
 import co.com.sofka.infraestructure.asyn.SubscriberEvent;
@@ -80,11 +81,13 @@ public class ApplicationConfig {
     @Bean
     public Set<UseCase.UseCaseWrap> listUseCasesForListener(
             RepartirCartasUseCase repartirCartasUseCase,
-            CrearRondaUseCase crearRondaUseCase
+            CrearRondaUseCase crearRondaUseCase,
+            xUseCase xUseCase
     ) {
         return Set.of(
                 new UseCase.UseCaseWrap("juego.CartasMazoPrincipalAgregadas", (UseCase) repartirCartasUseCase),
-                new UseCase.UseCaseWrap("juego.CartasRepartidas",(UseCase) crearRondaUseCase)
+                new UseCase.UseCaseWrap("juego.CartasRepartidas", (UseCase) crearRondaUseCase),
+                new UseCase.UseCaseWrap("juego.CronometroIniciado", (UseCase) xUseCase)
         );
     }
 

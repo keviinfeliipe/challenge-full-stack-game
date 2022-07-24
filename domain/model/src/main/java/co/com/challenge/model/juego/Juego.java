@@ -95,6 +95,18 @@ public class Juego extends AggregateEvent<JuegoId> {
         appendChange(new CartaQuitada(jugadorId, carta)).apply();
     }
 
+    public void restablecerCronometro(){
+        appendChange(new CronometroRestablecido()).apply();
+    }
+
+    public void iniciarCronometro(){
+        appendChange(new CronometroIniciado()).apply();
+    }
+
+    public void descontarTiempo(){
+        appendChange(new TiempoDescontado()).apply();
+    }
+
     public void determinarGanador(){
         appendChange(new GanadorDeterminado()).apply();
     }
