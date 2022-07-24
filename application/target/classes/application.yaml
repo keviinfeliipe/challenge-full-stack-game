@@ -1,8 +1,8 @@
-server:
-  port: 8080
 spring:
   application:
     name: challenge-full-stack-game
   data:
     mongodb:
-      uri: "mongodb+srv://sofka:sofka@sofka.58bqo.mongodb.net/game?authSource=admin&compressors=zlib&retryWrites=true&w=majority&ssl=true"
+      uri: ${MONGO_URI:mongodb+srv://sofka:sofka@sofka.58bqo.mongodb.net/game?authSource=admin&compressors=zlib&retryWrites=true&w=majority&ssl=true}
+  rabbitmq:
+    uri: ${BUS_URI:amqp://guest:guest@localhost:5672}

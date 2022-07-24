@@ -1,0 +1,4 @@
+co/com/challenge/bus/EventListenerSubscriber$1.class
+co/com/challenge/bus/RabbitMQEventBus.class
+co/com/challenge/bus/RabbitMQConsumer.class
+co/com/challenge/bus/EventListenerSubscriber.class

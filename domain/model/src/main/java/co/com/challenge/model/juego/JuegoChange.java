@@ -16,13 +16,10 @@ public class JuegoChange extends EventChange {
     public JuegoChange(Juego juego) {
 
         apply((JuegoCreado event)->{
-            juego.ronda = null;
-            juego.ganador = null;
             juego.jugadores = new HashSet<>();
             juego.jugadores.add(new Jugador(JugadorId.of(event.getJugadorId()), new Alias(event.getAlias())));
             juego.mazo = new Mazo();
             juego.jugando=false;
-            juego.tablero=null;
         });
 
         apply((JugadorCreado event)->{
@@ -34,12 +31,17 @@ public class JuegoChange extends EventChange {
             juego.jugadores.add(new Jugador(id,alias));
         });
 
-        apply((TableroCreado event)->{
-            juego.tablero= new Tablero();
+        apply((CartasMazoPrincipalAgregadas event)->{
+            event.getFactory().cartas()
+                    .forEach(carta -> juego.mazo().agregarCarta(carta));
         });
 
-        apply((JuegoIniciado event)->{
-            juego.jugando=true;
+        apply((CartasRepartidas event)->{
+
+        });
+
+        apply((TableroCreado event)->{
+            juego.tablero= new Tablero();
         });
 
         apply((RondaCreada event)->{
@@ -49,6 +51,40 @@ public class JuegoChange extends EventChange {
                     .map(Jugador::identity)
                     .collect(Collectors.toSet());
             juego.ronda = new Ronda(jugadores,new RondaNumero(jugadores.size()));
+        });
+
+        apply((CronometroRestablecido event)->{
+            juego.tablero().restablecerTiempo();
+        });
+
+        apply((TableroHabilitado event)->{
+            juego.cambiarEstadoDelTablero(true);
+        });
+
+
+        apply((CronometroIniciado event)->{
+
+        });
+
+        apply((TiempoDescontado event)->{
+            juego.tablero.descontarTiempo();
+        });
+
+        apply((TableroDeshabilitado event)->{
+            juego.cambiarEstadoDelTablero(false);
+        });
+
+        apply((CartaAlAzarseleccionar event)->{
+            var tablero = juego.tablero.cartaMap();
+            juego.ronda.jugadores().stream().forEach(jugadorId -> {
+                if(!tablero.containsKey(jugadorId)){
+                    //Completar <===========================================
+                }
+            });
+        });
+
+        apply((GanadorDeterminado event)->{
+            //Completar <===========================================
         });
 
         apply((CartaJugada event)->{
@@ -63,19 +99,6 @@ public class JuegoChange extends EventChange {
             juego.tablero.cartaMap().put(jugador.identity(),carta);
         });
 
-        apply((CartasRepartidas event)->{
-
-        });
-
-        apply((CartaAlAzarseleccionar event)->{
-            var tablero = juego.tablero.cartaMap();
-            juego.ronda.jugadores().stream().forEach(jugadorId -> {
-                if(!tablero.containsKey(jugadorId)){
-                    //Completar <===========================================
-                }
-            });
-        });
-
         apply((CartaAgregada event)->{
             var jugador = juego.buscarJugadorPorId(event.getJugadorId());
             jugador.agregarCartaAJugador(event.getCarta());
@@ -87,22 +110,6 @@ public class JuegoChange extends EventChange {
 
         });
 
-        apply((CartasMazoPrincipalAgregadas event)->{
-            event.getFactory().cartas()
-                    .forEach(carta -> juego.mazo().agregarCarta(carta));
-        });
-
-        apply((CronometroRestablecido event)->{
-            juego.tablero().restablecerTiempo();
-        });
-
-        apply((TiempoDescontado event)->{
-            juego.tablero.descontarTiempo();
-        });
-
-        apply((GanadorDeterminado event)->{
-            //Completar <===========================================
-        });
     }
 
 

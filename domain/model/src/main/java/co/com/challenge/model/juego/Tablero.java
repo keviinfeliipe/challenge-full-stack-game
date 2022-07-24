@@ -18,8 +18,12 @@ public class Tablero extends Entity<TableroId> {
     public Tablero() {
         super(new TableroId());
         this.cartaMap = new HashMap<>();
-        this.tiempo = new Tiempo(60);
+        this.tiempo = new Tiempo(0);
         this.habilitado = new EstaHabilitado(false);
+    }
+
+    public void habilitarTablero(Boolean aBoolean){
+        this.habilitado = new EstaHabilitado(aBoolean);
     }
 
     public void restablecerTiempo(){

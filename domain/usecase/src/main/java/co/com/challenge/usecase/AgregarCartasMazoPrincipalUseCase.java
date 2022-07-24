@@ -27,10 +27,12 @@ public class AgregarCartasMazoPrincipalUseCase extends UseCase<RequestCommand<In
         var command = requestCommand.getCommand();
         var juego = Juego.from(JuegoId.of(command.getJuegoId()), repository().getEventsBy(command.getJuegoId()));
         var cartaFactory = CartaFactory.getInstance();
-        Objects.requireNonNull(cartaRepository.findAll()
-                        .collectList()
-                        .block())
-                .forEach(cartaMaestra -> cartaFactory.add(new Carta(CartaId.of(cartaMaestra.getId()) , new Xp(cartaMaestra.getPoder()))));
+        var cartasMaestra = cartaRepository.findAll().collectList().block();
+
+        cartasMaestra.forEach(cartaMaestra -> {
+            cartaFactory.add(new Carta(CartaId.of(cartaMaestra.getId()) , new Xp(cartaMaestra.getPoder())));
+        });
+
         juego.agregarCartasMazoPrincipal(cartaFactory);
         emit().onResponse(new ResponseEvents(juego.getUncommittedChanges()));
 

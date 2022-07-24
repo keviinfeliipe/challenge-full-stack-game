@@ -1,0 +1,6 @@
+co/com/challenge/mongo/carta/MongoRepositoryAdapter.class
+co/com/challenge/mongo/carta/OperationAdapter.class
+co/com/challenge/mongo/carta/CartaDocument.class
+co/com/challenge/mongo/event/DocumentEventStored.class
+co/com/challenge/mongo/event/MongoEventStoreRepository.class
+co/com/challenge/mongo/carta/CartaMongoRepository.class

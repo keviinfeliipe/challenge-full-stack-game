@@ -1,8 +1,6 @@
 package co.com.challenge.config;
 
-import co.com.challenge.usecase.listeners.CrearRondaUseCase;
-import co.com.challenge.usecase.listeners.RepartirCartasUseCase;
-import co.com.challenge.usecase.listeners.xUseCase;
+import co.com.challenge.usecase.listeners.*;
 import co.com.sofka.business.generic.ServiceBuilder;
 import co.com.sofka.business.generic.UseCase;
 import co.com.sofka.infraestructure.asyn.SubscriberEvent;
@@ -12,6 +10,7 @@ import org.reactivecommons.utils.ObjectMapperI;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.boot.autoconfigure.mongo.MongoPropertiesClientSettingsBuilderCustomizer;
@@ -42,7 +41,6 @@ import java.util.logging.Logger;
         },
         useDefaultFilters = false)
 public class ApplicationConfig {
-
 
     private String origin = "*";
     public static final String EXCHANGE = "juego-heroes";
@@ -81,13 +79,22 @@ public class ApplicationConfig {
     @Bean
     public Set<UseCase.UseCaseWrap> listUseCasesForListener(
             RepartirCartasUseCase repartirCartasUseCase,
+            CrearTableroUseCase crearTableroUseCase,
             CrearRondaUseCase crearRondaUseCase,
-            xUseCase xUseCase
+            IniciarCronometroUseCase iniciarCronometroUseCase,
+            DescontarTiempoUseCase DescontarTiempoUseCase,
+            DeterminarGanadorUseCase determinarGanadorUseCase,
+            ValidarTiempoUseCase validarTiempoUseCase
     ) {
         return Set.of(
                 new UseCase.UseCaseWrap("juego.CartasMazoPrincipalAgregadas", (UseCase) repartirCartasUseCase),
-                new UseCase.UseCaseWrap("juego.CartasRepartidas", (UseCase) crearRondaUseCase),
-                new UseCase.UseCaseWrap("juego.CronometroIniciado", (UseCase) xUseCase)
+                new UseCase.UseCaseWrap("juego.CartasRepartidas", (UseCase) crearTableroUseCase),
+                new UseCase.UseCaseWrap("juego.TableroCreado", (UseCase) crearRondaUseCase),
+                new UseCase.UseCaseWrap("juego.RondaCreada", (UseCase) iniciarCronometroUseCase),
+                new UseCase.UseCaseWrap("juego.CronometroIniciado", (UseCase) DescontarTiempoUseCase),
+                new UseCase.UseCaseWrap("juego.TiempoDescontado", (UseCase) validarTiempoUseCase),
+                new UseCase.UseCaseWrap("juego.TiempoTerminado", (UseCase) determinarGanadorUseCase)
+
         );
     }
 

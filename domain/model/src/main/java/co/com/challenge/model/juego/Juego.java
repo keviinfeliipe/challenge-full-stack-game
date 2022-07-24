@@ -63,6 +63,8 @@ public class Juego extends AggregateEvent<JuegoId> {
         appendChange(new JugadorCreado(jugadorId,alias)).apply();
     }
 
+
+
     public void iniciarJuego(){
         appendChange(new JuegoIniciado()).apply();
     }
@@ -107,8 +109,20 @@ public class Juego extends AggregateEvent<JuegoId> {
         appendChange(new TiempoDescontado()).apply();
     }
 
+    public void terminoElTimepo(){
+        appendChange(new TiempoTerminado()).apply();
+    }
+
     public void determinarGanador(){
         appendChange(new GanadorDeterminado()).apply();
+    }
+
+    public void habiltarTablero(){
+        appendChange(new TableroHabilitado()).apply();
+    }
+
+    public void deshabilitarTablero(){
+        appendChange(new TableroDeshabilitado()).apply();
     }
 
     public Jugador buscarJugadorPorId(JugadorId id){
@@ -117,6 +131,10 @@ public class Juego extends AggregateEvent<JuegoId> {
                 .filter(suscriptor -> suscriptor.identity().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("No se encontró el jugador"));
+    }
+
+    public void cambiarEstadoDelTablero(Boolean aBoolean){
+        this.tablero.habilitarTablero(aBoolean);
     }
 
     public void agregarCartasMazoPrincipal(CartaFactory factory){
