@@ -7,8 +7,6 @@ ginfrastructure/entry-points/src/main/java/co/com/challenge/controller/router/Ju
 ginfrastructure/entry-points/src/main/java/co/com/challenge/controller/router/CartaRouterController.java,e/5/e5f9d0e8da8e9281925d310e23be3d8ad18ac0d0
 Ž
 ^infrastructure/entry-points/src/main/java/co/com/challenge/controller/router/JuegoHandler.java,7/7/77a70a7afdf9361e396677d9eee736abcfd4b611
-F
-domain/usecase/pom.xml,d/b/dbdff5a8e0c3ebe1bb04c2d48f6e1da25cba4276
 y
 Idomain/model/src/main/java/co/com/challenge/model/carta/CartaMaestra.java,8/a/8a1ded5e65dcc4f8407e503edf7c4c6220bc74df
 €
@@ -57,8 +55,6 @@ vinfrastructure/driven-adapters/mongo-repository/src/main/java/co/com/challenge/
 pinfrastructure/driven-adapters/mongo-repository/src/main/java/co/com/challenge/mongo/carta/OperationAdapter.java,a/0/a06c677f1967fb49f773d18cfe295391cc83d272
 £
 sinfrastructure/driven-adapters/mongo-repository/src/main/java/co/com/challenge/mongo/event/DocumentEventStored.java,d/7/d767a2ac557b6a7b61d5db30cb8b3b572006266e
-©
-yinfrastructure/driven-adapters/mongo-repository/src/main/java/co/com/challenge/mongo/event/MongoEventStoreRepository.java,b/3/b38d20aa8f57472e673ac553ae030d08aeb8b6a9
 ˆ
 Xdomain/model/src/main/java/co/com/challenge/model/juego/command/CrearJugadorCommand.java,1/b/1b2820ac325bc173d33bdc6b4ec9d78dfa5fa6a4
 ~
@@ -101,12 +97,8 @@ Ndomain/model/src/main/java/co/com/challenge/model/juego/event/RondaCreada.java
 Ldomain/model/src/main/java/co/com/challenge/model/juego/TiempoTerminado.java,f/1/f147c8c40999c3e479d901bd69f500101a1388af
 t
 Dapplication/src/main/java/co/com/challenge/config/MongoDBSecret.java,b/4/b4384569cb36390d7a5b4d4427dbcc62c0c52e6e
-w
-Gdomain/usecase/src/main/java/co/com/challenge/usecase/CartaUseCase.java,2/a/2a78da08ae3baeb3d866ce58b536da52875bd21b
 †
 Vdomain/usecase/src/main/java/co/com/challenge/usecase/listeners/CrearRondaUseCase.java,2/d/2d864a4e0f4afe6791a0ef4a600e791f780717b4
-|
-Ldomain/usecase/src/main/java/co/com/challenge/usecase/CrearJuegoUseCase.java,e/5/e57f70d3b69a29b2d181ded648e1ad0bd845debc
 …
 Udomain/model/src/main/java/co/com/challenge/model/juego/event/CronometroIniciado.java,2/9/29b2074c2e2a392695718eb3f39b6d4d96464970
 y

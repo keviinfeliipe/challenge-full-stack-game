@@ -1,16 +1,16 @@
 package co.com.challenge.usecase.model;
 
-public class JuegosActivos {
+public class JuegoActivo {
 
     private String juegoId;
     private String jugadorId;
     private String alias;
 
 
-    public JuegosActivos() {
+    public JuegoActivo() {
     }
 
-    public JuegosActivos(String juegoId, String jugadorId, String alias) {
+    public JuegoActivo(String juegoId, String jugadorId, String alias) {
         this.juegoId = juegoId;
         this.jugadorId = jugadorId;
         this.alias = alias;

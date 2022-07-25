@@ -6,8 +6,10 @@ import co.com.challenge.model.juego.command.IniciarJuegoCommand;
 import co.com.challenge.model.juego.command.JugarCartaCommand;
 import co.com.challenge.usecase.*;
 import co.com.challenge.usecase.RepartirCartasUseCase;
-import co.com.challenge.usecase.model.JuegosActivos;
+import co.com.challenge.usecase.model.JuegoActivo;
+import co.com.challenge.usecase.model.JugadorCartas;
 import co.com.challenge.usecase.service.JuegoActivoService;
+import co.com.challenge.usecase.service.JugadorCartasService;
 import co.com.sofka.business.generic.UseCaseHandler;
 import co.com.sofka.business.repository.DomainEventRepository;
 import co.com.sofka.business.support.RequestCommand;
@@ -36,12 +38,13 @@ public class JuegoController {
     private JugarCartaUseCase jugarCartaUseCase;
     private RepartirCartasUseCase repartirCartasUseCase;
     private JuegoActivoService juegoActivoService;
+    private JugadorCartasService jugadorCartasService;
 
     public JuegoController(CrearJuegoUseCase useCase,
                            CrearJugadorUseCase crearJugadorUseCase,
                            EventStoreRepository eventStoreRepository,
                            SubscriberEvent subscriberEvent, JugarCartaUseCase jugarCartaUseCase,
-                           RepartirCartasUseCase repartirCartasUseCase, JuegoActivoService juegoActivoService) {
+                           RepartirCartasUseCase repartirCartasUseCase, JuegoActivoService juegoActivoService, JugadorCartasService jugadorCartasService) {
         this.crearJuegoUseCase = useCase;
         this.crearJugadorUseCase = crearJugadorUseCase;
         this.eventStoreRepository = eventStoreRepository;
@@ -49,6 +52,7 @@ public class JuegoController {
         this.jugarCartaUseCase = jugarCartaUseCase;
         this.repartirCartasUseCase = repartirCartasUseCase;
         this.juegoActivoService = juegoActivoService;
+        this.jugadorCartasService = jugadorCartasService;
     }
 
     @PostMapping("/crearjuego")
@@ -99,7 +103,7 @@ public class JuegoController {
     }
 
     @GetMapping()
-    public Mono<ResponseEntity<Flux<JuegosActivos>>> juegosActivos(){
+    public Mono<ResponseEntity<Flux<JuegoActivo>>> juegosActivos(){
         return Mono.just(
                 ResponseEntity
                         .ok()
@@ -107,6 +111,17 @@ public class JuegoController {
                         .body(juegoActivoService.obtenerJuegosActivos())
         );
     }
+
+    @GetMapping("/xxx")
+    public Mono<ResponseEntity<Mono<JugadorCartas>>> jugadorCartas(){
+        return Mono.just(
+                ResponseEntity
+                        .ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(jugadorCartasService.obtenerCartasDeJugador())
+        );
+    }
+
 
     private DomainEventRepository domainEventRepository() {
         return new DomainEventRepository() {

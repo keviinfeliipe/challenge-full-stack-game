@@ -1,6 +1,6 @@
 package co.com.challenge.services;
 
-import co.com.challenge.usecase.model.JuegosActivos;
+import co.com.challenge.usecase.model.JuegoActivo;
 import co.com.challenge.usecase.service.JuegoActivoService;
 import com.google.gson.Gson;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -19,14 +19,14 @@ public class JuegoActivoQueryService implements JuegoActivoService {
     }
 
     @Override
-    public Flux<JuegosActivos> obtenerJuegosActivos() {
+    public Flux<JuegoActivo> obtenerJuegosActivos() {
 
         return Flux.fromIterable(mongoTemplate
                 .findAll(String.class, "juego.JuegoCreado")
                 .stream()
                 .map(s -> new Gson().fromJson(s,JuegoIdRecord.class))
                 .map(juegoIdRecord -> {
-                    var juegoActivo = new JuegosActivos();
+                    var juegoActivo = new JuegoActivo();
                     juegoActivo.setJuegoId(juegoIdRecord.getAggregateRootId());
                     juegoActivo.setJugadorId(juegoIdRecord.getJugadorId());
                     juegoActivo.setAlias(juegoIdRecord.getAlias());

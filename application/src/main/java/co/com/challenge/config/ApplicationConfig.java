@@ -1,6 +1,7 @@
 package co.com.challenge.config;
 
 import co.com.challenge.services.JuegoActivoQueryService;
+import co.com.challenge.services.JugadorCartasQueryService;
 import co.com.challenge.usecase.RepartirCartasUseCase;
 import co.com.challenge.usecase.listeners.*;
 import co.com.sofka.business.generic.ServiceBuilder;
@@ -32,14 +33,13 @@ import java.util.logging.Logger;
 
 
 @Configuration
-@ComponentScan(basePackages = {"co.com.challenge*","co.com.challenge.usecase","co.com.challenge.model","co.com.challenge.controller", "co.com.challenge.service"},
+@ComponentScan(basePackages = {"co.com.challenge*","co.com.challenge.usecase","co.com.challenge.model","co.com.challenge.controller"},
         includeFilters = {
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+UseCase$"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+Repository$"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+Adapter$"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+Controller$"),
-                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+Handler$"),
-                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+Service$")
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "^.+Handler$")
         },
         useDefaultFilters = false)
 public class ApplicationConfig {
@@ -73,10 +73,12 @@ public class ApplicationConfig {
 
     @Bean
     public ServiceBuilder serviceBuilder(
-            JuegoActivoQueryService juegoActivoQueryService
+            JuegoActivoQueryService juegoActivoQueryService,
+            JugadorCartasQueryService jugadorCartasQueryService
     ) {
         ServiceBuilder serviceBuilder = new ServiceBuilder();
         serviceBuilder.addService(juegoActivoQueryService);
+        serviceBuilder.addService(jugadorCartasQueryService);
         return serviceBuilder;
     }
 
