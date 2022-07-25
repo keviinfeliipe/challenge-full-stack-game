@@ -23,7 +23,7 @@ public class DeterminarGanadorDeRondaUseCase extends UseCase<TriggeredEvent<Cart
         var juego = Juego.from(juegoId, events);
         var cartasConMayorValor = cartasConMayorValor(juego.tablero().cartaMap());
         if(cartasConMayorValor.size()>1){
-
+            System.out.println("Empate +++++++++++++++++++++++++++");
         }else{
             var idJugadorGanador = cartasConMayorValor.keySet().stream().findFirst().orElseThrow();
             var cartaFactory = new CartaFactory();
@@ -47,8 +47,8 @@ public class DeterminarGanadorDeRondaUseCase extends UseCase<TriggeredEvent<Cart
 
     private Map<JugadorId, Carta> cartasConMayorValor(Map<JugadorId, Carta> map){
         HashMap<JugadorId, Carta> nuevoMap = new HashMap<>();
-        map.entrySet().forEach(jugadorIdCartaEntry -> nuevoMap.put(jugadorIdCartaEntry.getKey(),jugadorIdCartaEntry.getValue()));
         Map<JugadorId, Carta> mapResponse = new HashMap<>();
+        map.entrySet().forEach(jugadorIdCartaEntry -> nuevoMap.put(jugadorIdCartaEntry.getKey(),jugadorIdCartaEntry.getValue()));
         var mayor = map.values().stream().max(Comparator.comparing(Carta::xp)).orElseThrow();
         nuevoMap.forEach((jugadorId, carta) -> {
             if (carta.xp()==mayor.xp()){
@@ -58,3 +58,4 @@ public class DeterminarGanadorDeRondaUseCase extends UseCase<TriggeredEvent<Cart
         return mapResponse;
     }
 }
+

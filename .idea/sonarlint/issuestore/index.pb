@@ -113,8 +113,6 @@ Vdomain/usecase/src/main/java/co/com/challenge/usecase/listeners/CrearRondaUseCa
 Ldomain/usecase/src/main/java/co/com/challenge/usecase/CrearJuegoUseCase.java,e/5/e57f70d3b69a29b2d181ded648e1ad0bd845debc
 …
 Udomain/model/src/main/java/co/com/challenge/model/juego/event/CronometroIniciado.java,2/9/29b2074c2e2a392695718eb3f39b6d4d96464970
-‰
-Ydomain/usecase/src/main/java/co/com/challenge/usecase/listeners/ValidarTiempoUseCase.java,f/a/fa9747d313ad9633de0ac25323654746db1bb7fe
 y
 Idomain/model/src/main/java/co/com/challenge/model/juego/value/Tiempo.java,8/e/8e8d48642a2b841da0c963c61d639407a7ce2a77
 ‰
@@ -125,8 +123,6 @@ Zdomain/model/src/main/java/co/com/challenge/model/juego/event/CartaAlAzarSelecc
 Odomain/model/src/main/java/co/com/challenge/model/juego/event/CartaQuitada.java,7/a/7a0d90667b7fb12a36511371370f9ea85c9db6d5
 |
 Ldomain/usecase/src/main/java/co/com/challenge/usecase/JugarCartaUseCase.java,e/4/e43e419fdc9aaaee1697119da228bed33adce423
-|
-Ldomain/model/src/main/java/co/com/challenge/model/juego/value/JugadorId.java,d/4/d42428577b55319f803844b2fcba86fceb8a1b52
 r
 Bdomain/model/src/main/java/co/com/challenge/model/juego/Carta.java,9/8/986b28bce81a7292a8ab54a5b5bd5f16091b2206
 ‰
@@ -141,7 +137,5 @@ y
 Idomain/model/src/main/java/co/com/challenge/model/juego/CartaFactory.java,5/0/50693d23c4cd49248d3745c1abd847ba32773144
 q
 Adomain/model/src/main/java/co/com/challenge/model/juego/Mazo.java,f/0/f0cb25123af308b0880d47465db240cb8fad4d01
-t
-Ddomain/model/src/main/java/co/com/challenge/model/juego/Jugador.java,5/e/5e13df7ac1ebe3d7dc80cb2c7dc36159995dd1c9
 †
 Vdomain/model/src/main/java/co/com/challenge/model/juego/GanadorDeJuegoDeterminado.java,3/e/3e273cced48f0daa133a137357c59343bcea78d7

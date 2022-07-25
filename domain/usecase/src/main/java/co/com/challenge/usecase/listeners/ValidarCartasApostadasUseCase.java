@@ -35,7 +35,8 @@ public class ValidarCartasApostadasUseCase extends UseCase<TriggeredEvent<Tiempo
         var jugagor = juego.buscarJugadorPorId(jugadorId);
         var cantidadDeCArtas = jugagor.mazo().cartas().size();
         var random = new Random();
-        var aleatorio = random.nextInt(cantidadDeCArtas+1);
+        var aleatorio = random.nextInt(cantidadDeCArtas);
+        System.out.println("Numero aletorio= "+ aleatorio + jugagor.toString());
         return  jugagor.mazo()
                 .cartas()
                 .stream()
