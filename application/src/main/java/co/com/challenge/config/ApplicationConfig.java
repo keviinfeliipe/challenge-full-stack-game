@@ -10,7 +10,6 @@ import org.reactivecommons.utils.ObjectMapperI;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.boot.autoconfigure.mongo.MongoPropertiesClientSettingsBuilderCustomizer;
@@ -83,8 +82,9 @@ public class ApplicationConfig {
             CrearRondaUseCase crearRondaUseCase,
             IniciarCronometroUseCase iniciarCronometroUseCase,
             DescontarTiempoUseCase DescontarTiempoUseCase,
-            DeterminarGanadorUseCase determinarGanadorUseCase,
-            ValidarTiempoUseCase validarTiempoUseCase
+            DeterminarGanadorDeRondaUseCase determinarGanadorUseCase,
+            ValidarTiempoUseCase validarTiempoUseCase,
+            ValidarCartasApostadasUseCase validarCartasApostadasUseCase
     ) {
         return Set.of(
                 new UseCase.UseCaseWrap("juego.CartasMazoPrincipalAgregadas", (UseCase) repartirCartasUseCase),
@@ -93,8 +93,8 @@ public class ApplicationConfig {
                 new UseCase.UseCaseWrap("juego.RondaCreada", (UseCase) iniciarCronometroUseCase),
                 new UseCase.UseCaseWrap("juego.CronometroIniciado", (UseCase) DescontarTiempoUseCase),
                 new UseCase.UseCaseWrap("juego.TiempoDescontado", (UseCase) validarTiempoUseCase),
-                new UseCase.UseCaseWrap("juego.TiempoTerminado", (UseCase) determinarGanadorUseCase)
-
+                new UseCase.UseCaseWrap("juego.TiempoTerminado", (UseCase) validarCartasApostadasUseCase),
+                new UseCase.UseCaseWrap("juego.CartaAlAzarSeleccionada", (UseCase) determinarGanadorUseCase)
         );
     }
 

@@ -5,7 +5,6 @@ import co.com.challenge.model.juego.event.*;
 import co.com.challenge.model.juego.value.Alias;
 import co.com.challenge.model.juego.value.JugadorId;
 import co.com.challenge.model.juego.value.RondaNumero;
-import co.com.challenge.model.juego.value.Tiempo;
 import co.com.sofka.domain.generic.EventChange;
 
 
@@ -36,10 +35,6 @@ public class JuegoChange extends EventChange {
                     .forEach(carta -> juego.mazo().agregarCarta(carta));
         });
 
-        apply((CartasRepartidas event)->{
-
-        });
-
         apply((TableroCreado event)->{
             juego.tablero= new Tablero();
         });
@@ -62,10 +57,6 @@ public class JuegoChange extends EventChange {
         });
 
 
-        apply((CronometroIniciado event)->{
-
-        });
-
         apply((TiempoDescontado event)->{
             juego.tablero.descontarTiempo();
         });
@@ -74,17 +65,19 @@ public class JuegoChange extends EventChange {
             juego.cambiarEstadoDelTablero(false);
         });
 
-        apply((CartaAlAzarseleccionar event)->{
-            var tablero = juego.tablero.cartaMap();
-            juego.ronda.jugadores().stream().forEach(jugadorId -> {
-                if(!tablero.containsKey(jugadorId)){
-                    //Completar <===========================================
-                }
-            });
+        apply((CartaAlAzarSeleccionada event)->{
+
         });
 
-        apply((GanadorDeterminado event)->{
-            //Completar <===========================================
+        apply((GanadorDeRondaDeterminado event)->{
+            var jugador = juego.buscarJugadorPorId(event.getJugadorId());
+            event.getFactory().cartas().forEach(carta -> jugador.agregarCartaAJugador(carta));
+            jugador.agragarPuntajeAJugador();
+            juego.tablero=new Tablero();
+        });
+
+        apply((GanadorDeJuegoDeterminado event)->{
+            juego.ganador=event.getGanador();
         });
 
         apply((CartaJugada event)->{
@@ -95,19 +88,23 @@ public class JuegoChange extends EventChange {
                     .orElseThrow();
             if(juego.tablero.habilitado().value()){
                 jugador.quitarCartaAJugador(carta);
+                juego.tablero.cartaMap().put(jugador.identity(),carta);
             }
-            juego.tablero.cartaMap().put(jugador.identity(),carta);
         });
 
-        apply((CartaAgregada event)->{
+        apply((CartasAgregadasAJugador event)->{
             var jugador = juego.buscarJugadorPorId(event.getJugadorId());
-            jugador.agregarCartaAJugador(event.getCarta());
+            event.getCartaFactory().cartas().forEach(carta -> jugador.agregarCartaAJugador(carta));
         });
 
         apply((CartaQuitada event)->{
             var jugador = juego.buscarJugadorPorId(event.getJugadorId());
             jugador.quitarCartaAJugador(event.getCarta());
+        });
 
+        apply((CartaAgregadaAlTablero event)->{
+            var jugador = juego.buscarJugadorPorId(event.getJugadorId());
+            juego.tablero.cartaMap().put(jugador.identity(),event.getCarta());
         });
 
     }

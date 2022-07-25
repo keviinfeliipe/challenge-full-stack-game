@@ -1,5 +1,0 @@
-
-:
-java:S2629,"$Invoke method(s) only conditionally.(æÏ¥¼
-w
-java:S3457,"aNo need to call "toString()" method as formatting and string conversion is done by the Formatter.(æÏ¥¼

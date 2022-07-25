@@ -18,6 +18,12 @@ public class Mazo extends Entity<MazoId> {
         this.cantidad = 0;
     }
 
+    public Mazo(Set<Carta> cartas){
+        super(new MazoId());
+        this.cartas = cartas;
+        this.cantidad = cartas.size();
+    }
+
     public void agregarCarta(Carta carta){
         this.cartas.add(carta);
         this.cantidad+=1;

@@ -27,7 +27,7 @@ public class Tablero extends Entity<TableroId> {
     }
 
     public void restablecerTiempo(){
-        this.tiempo = new Tiempo(60);
+        this.tiempo = new Tiempo(5);
     }
 
     public void descontarTiempo(){

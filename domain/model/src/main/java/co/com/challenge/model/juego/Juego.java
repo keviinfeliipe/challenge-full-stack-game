@@ -63,8 +63,6 @@ public class Juego extends AggregateEvent<JuegoId> {
         appendChange(new JugadorCreado(jugadorId,alias)).apply();
     }
 
-
-
     public void iniciarJuego(){
         appendChange(new JuegoIniciado()).apply();
     }
@@ -86,11 +84,11 @@ public class Juego extends AggregateEvent<JuegoId> {
     }
 
     public void seleccionarCartaAlAzar(){
-        appendChange(new CartaAlAzarseleccionar()).apply();
+        appendChange(new CartaAlAzarSeleccionada()).apply();
     }
 
-    public void agregarCartaJugador(JugadorId jugadorId, Carta carta){
-        appendChange(new CartaAgregada(jugadorId, carta)).apply();
+    public void agregarCartasJugador(JugadorId jugadorId, CartaFactory factory){
+        appendChange(new CartasAgregadasAJugador(jugadorId, factory)).apply();
     }
 
     public void quitarCartaJugador(JugadorId jugadorId, Carta carta){
@@ -113,8 +111,12 @@ public class Juego extends AggregateEvent<JuegoId> {
         appendChange(new TiempoTerminado()).apply();
     }
 
-    public void determinarGanador(){
-        appendChange(new GanadorDeterminado()).apply();
+    public void determinarGanador(JugadorId jugadorId,CartaFactory factory){
+        appendChange(new GanadorDeRondaDeterminado(jugadorId,factory)).apply();
+    }
+
+    public void determinarGanadorDeJuego(Jugador ganador){
+        appendChange(new GanadorDeJuegoDeterminado(ganador)).apply();
     }
 
     public void habiltarTablero(){
@@ -135,6 +137,10 @@ public class Juego extends AggregateEvent<JuegoId> {
 
     public void cambiarEstadoDelTablero(Boolean aBoolean){
         this.tablero.habilitarTablero(aBoolean);
+    }
+
+    public void agregarCartaAlTablero(JugadorId jugadorId,Carta carta){
+        appendChange(new CartaAgregadaAlTablero(jugadorId, carta)).apply();
     }
 
     public void agregarCartasMazoPrincipal(CartaFactory factory){

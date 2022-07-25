@@ -54,6 +54,6 @@ public class RabbitMQEventBus implements EventBus {
         var notification = ErrorNotification.wrapEvent(ORIGIN, errorEvent);
         var notificationSerialization = ErrorNotificationSerializer.instance().serialize(notification);
         rabbitTemplate.convertAndSend(EXCHANGE, errorEvent.identify, notificationSerialization.getBytes());
-        logger.warning("###### Error Event published to " + topic);
+        logger.warning("###### Error Event published to " + errorEvent);
     }
 }

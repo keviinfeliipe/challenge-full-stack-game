@@ -21,6 +21,7 @@ public class ValidarTiempoUseCase extends UseCase<TriggeredEvent<TiempoDescontad
             juego.descontarTiempo();
             Thread.sleep(1000);
         }else{
+            juego.deshabilitarTablero();
             juego.terminoElTimepo();
         }
 

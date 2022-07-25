@@ -26,11 +26,11 @@ public class AgregarCartasMazoPrincipalUseCase extends UseCase<RequestCommand<In
     public void executeUseCase(RequestCommand<IniciarJuegoCommand> requestCommand) {
         var command = requestCommand.getCommand();
         var juego = Juego.from(JuegoId.of(command.getJuegoId()), repository().getEventsBy(command.getJuegoId()));
-        var cartaFactory = CartaFactory.getInstance();
+        var cartaFactory = new CartaFactory();
         var cartasMaestra = cartaRepository.findAll().collectList().block();
 
         cartasMaestra.forEach(cartaMaestra -> {
-            cartaFactory.add(new Carta(CartaId.of(cartaMaestra.getId()) , new Xp(cartaMaestra.getPoder())));
+            cartaFactory.add(new Carta(CartaId.of(cartaMaestra.getId()) , cartaMaestra.getPoder()));
         });
 
         juego.agregarCartasMazoPrincipal(cartaFactory);

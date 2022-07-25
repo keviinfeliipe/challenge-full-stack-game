@@ -32,6 +32,10 @@ public class Jugador extends Entity<JugadorId> {
         this.mazo.quitarCarta(carta);
     }
 
+    public void agragarPuntajeAJugador(){
+        this.puntaje = new Puntaje(puntaje().value()+1);
+    }
+
     public Alias alias() {
         return alias;
     }

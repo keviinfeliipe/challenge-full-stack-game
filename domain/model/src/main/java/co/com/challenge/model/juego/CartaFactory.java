@@ -9,7 +9,7 @@ public class CartaFactory {
     public static CartaFactory instance;
     private final Set<Carta> cartas;
 
-    private CartaFactory(){
+    public CartaFactory(){
         cartas = new HashSet<>();
     }
 

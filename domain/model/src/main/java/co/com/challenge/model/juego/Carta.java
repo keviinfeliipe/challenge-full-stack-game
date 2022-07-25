@@ -10,13 +10,17 @@ public class Carta extends Entity<CartaId> {
 
     private EstaOculta oculta;
     private EstaHabilitada habilitada;
-    private Xp xp;
+    private Integer xp;
 
-    public Carta(CartaId cartaId, Xp xp) {
+    public Carta(CartaId cartaId, Integer xp) {
         super(cartaId);
         this.xp = xp;
         this.oculta = new EstaOculta(true);
         this.habilitada = new EstaHabilitada(true);
+    }
+
+    public Integer xp() {
+        return xp;
     }
 
     public EstaOculta oculta() {

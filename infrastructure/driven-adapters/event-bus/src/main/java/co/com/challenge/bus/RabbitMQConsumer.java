@@ -46,6 +46,7 @@ public class RabbitMQConsumer {
             this.eventListenerSubscriber.onNext(event);
             Optional.ofNullable(event.aggregateParentId())
                     .ifPresentOrElse(id -> socketController.send(id, event), () -> socketController.send(event.aggregateRootId(), event));
+            Thread.sleep(1000);
         } catch (Exception e) {
             this.eventListenerSubscriber.onError(e);
         }
