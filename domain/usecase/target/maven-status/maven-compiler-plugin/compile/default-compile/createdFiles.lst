@@ -1,9 +1,12 @@
 co/com/challenge/usecase/CrearJugadorUseCase.class
-co/com/challenge/usecase/listeners/xUseCase.class
-co/com/challenge/usecase/listeners/RepartirCartasUseCase.class
+co/com/challenge/usecase/listeners/IniciarCronometroUseCase.class
+co/com/challenge/usecase/listeners/ValidarCartasApostadasUseCase.class
+co/com/challenge/usecase/listeners/DescontarTiempoUseCase.class
 co/com/challenge/usecase/JugarCartaUseCase.class
+co/com/challenge/usecase/listeners/DeterminarGanadorDeRondaUseCase.class
 co/com/challenge/usecase/CrearJuegoUseCase.class
-co/com/challenge/usecase/AgregarCartasMazoPrincipalUseCase.class
+co/com/challenge/usecase/listeners/ValidarTiempoUseCase.class
+co/com/challenge/usecase/RepartirCartasUseCase.class
 co/com/challenge/usecase/listeners/CrearTableroUseCase.class
 co/com/challenge/usecase/CartaUseCase.class
 co/com/challenge/usecase/listeners/CrearRondaUseCase.class

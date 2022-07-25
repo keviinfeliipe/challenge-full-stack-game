@@ -1,5 +1,6 @@
 package co.com.challenge.config;
 
+import co.com.challenge.usecase.RepartirCartasUseCase;
 import co.com.challenge.usecase.listeners.*;
 import co.com.sofka.business.generic.ServiceBuilder;
 import co.com.sofka.business.generic.UseCase;
@@ -87,7 +88,6 @@ public class ApplicationConfig {
             ValidarCartasApostadasUseCase validarCartasApostadasUseCase
     ) {
         return Set.of(
-                new UseCase.UseCaseWrap("juego.CartasMazoPrincipalAgregadas", (UseCase) repartirCartasUseCase),
                 new UseCase.UseCaseWrap("juego.CartasRepartidas", (UseCase) crearTableroUseCase),
                 new UseCase.UseCaseWrap("juego.TableroCreado", (UseCase) crearRondaUseCase),
                 new UseCase.UseCaseWrap("juego.RondaCreada", (UseCase) iniciarCronometroUseCase),

@@ -5,6 +5,7 @@ import co.com.challenge.model.juego.command.CrearJugadorCommand;
 import co.com.challenge.model.juego.command.IniciarJuegoCommand;
 import co.com.challenge.model.juego.command.JugarCartaCommand;
 import co.com.challenge.usecase.*;
+import co.com.challenge.usecase.RepartirCartasUseCase;
 import co.com.sofka.business.generic.UseCaseHandler;
 import co.com.sofka.business.repository.DomainEventRepository;
 import co.com.sofka.business.support.RequestCommand;
@@ -29,19 +30,19 @@ public class JuegoController {
     private EventStoreRepository eventStoreRepository;
     private SubscriberEvent subscriberEvent;
     private JugarCartaUseCase jugarCartaUseCase;
-    private AgregarCartasMazoPrincipalUseCase agregarCartasMazoPrincipalUseCase;
+    private RepartirCartasUseCase repartirCartasUseCase;
 
     public JuegoController(CrearJuegoUseCase useCase,
                            CrearJugadorUseCase crearJugadorUseCase,
                            EventStoreRepository eventStoreRepository,
                            SubscriberEvent subscriberEvent, JugarCartaUseCase jugarCartaUseCase,
-                           AgregarCartasMazoPrincipalUseCase iniciarJuegoUseCase) {
+                           RepartirCartasUseCase repartirCartasUseCase) {
         this.crearJuegoUseCase = useCase;
         this.crearJugadorUseCase = crearJugadorUseCase;
         this.eventStoreRepository = eventStoreRepository;
         this.subscriberEvent = subscriberEvent;
         this.jugarCartaUseCase = jugarCartaUseCase;
-        this.agregarCartasMazoPrincipalUseCase = iniciarJuegoUseCase;
+        this.repartirCartasUseCase = repartirCartasUseCase;
     }
 
     @PostMapping("/crearjuego")
@@ -69,16 +70,6 @@ public class JuegoController {
     }
 
 
-    /*
-    @PostMapping("/agregarjugador")
-    public ResponseEntity<String> agregarJugador(@RequestBody CrearJugadorCommand command){
-        crearJugadorUseCase.apply(command);
-        return ResponseEntity.created(URI.create(""))
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(command.getJuegoId());
-    }
-     */
-
     @PostMapping("/jugarcarta")
     public ResponseEntity<String> jugarCarta(@RequestBody JugarCartaCommand command){
         jugarCartaUseCase.addRepository(domainEventRepository());
@@ -92,9 +83,9 @@ public class JuegoController {
 
     @GetMapping("/iniciarjuego/{id}")
     public ResponseEntity<String> iniciarJuego(@PathVariable String id){
-        agregarCartasMazoPrincipalUseCase.addRepository(domainEventRepository());
+        repartirCartasUseCase.addRepository(domainEventRepository());
         UseCaseHandler.getInstance()
-                .asyncExecutor(agregarCartasMazoPrincipalUseCase, new RequestCommand<>(new IniciarJuegoCommand(id)))
+                .asyncExecutor(repartirCartasUseCase, new RequestCommand<>(new IniciarJuegoCommand(id)))
                 .subscribe(subscriberEvent);
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)

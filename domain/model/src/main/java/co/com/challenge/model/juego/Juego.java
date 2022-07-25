@@ -88,6 +88,9 @@ public class Juego extends AggregateEvent<JuegoId> {
     }
 
     public void agregarCartasJugador(JugadorId jugadorId, CartaFactory factory){
+        if (factory.cartas().size()==0){
+            System.out.println("cartas vacias");
+        }
         appendChange(new CartasAgregadasAJugador(jugadorId, factory)).apply();
     }
 
@@ -144,6 +147,7 @@ public class Juego extends AggregateEvent<JuegoId> {
     }
 
     public void agregarCartasMazoPrincipal(CartaFactory factory){
-        appendChange(new CartasMazoPrincipalAgregadas(factory)).apply();
+        factory.cartas().forEach(carta -> mazo.agregarCarta(carta));
     }
+
 }

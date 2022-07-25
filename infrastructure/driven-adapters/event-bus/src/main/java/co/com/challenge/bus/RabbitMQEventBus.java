@@ -19,9 +19,9 @@ import java.util.logging.Logger;
 @Service
 public class RabbitMQEventBus implements EventBus {
     public static final String EXCHANGE = "juego-heroes";
-    private static final String ORIGIN = "cargame";
-    private static final String TOPIC_ERROR = "cargame.error";
-    private static final String TOPIC_BUSINESS_ERROR = "cargame.business.error";
+    private static final String ORIGIN = "juego";
+    private static final String TOPIC_ERROR = "juego.error";
+    private static final String TOPIC_BUSINESS_ERROR = "juego.business.error";
     private static final Logger logger = Logger.getLogger(RabbitMQEventBus.class.getName());
     private final RabbitTemplate rabbitTemplate;
     private final MongoTemplate mongoTemplate;
@@ -54,6 +54,6 @@ public class RabbitMQEventBus implements EventBus {
         var notification = ErrorNotification.wrapEvent(ORIGIN, errorEvent);
         var notificationSerialization = ErrorNotificationSerializer.instance().serialize(notification);
         rabbitTemplate.convertAndSend(EXCHANGE, errorEvent.identify, notificationSerialization.getBytes());
-        logger.warning("###### Error Event published to " + errorEvent);
+        logger.warning("###### Error Event published to " + "getMessage = ".concat(errorEvent.error.getMessage()).concat(", LocalizedMessage = ").concat(errorEvent.error.getStackTrace().toString()));
     }
 }

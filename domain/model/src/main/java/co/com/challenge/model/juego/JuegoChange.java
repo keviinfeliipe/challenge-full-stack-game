@@ -30,11 +30,6 @@ public class JuegoChange extends EventChange {
             juego.jugadores.add(new Jugador(id,alias));
         });
 
-        apply((CartasMazoPrincipalAgregadas event)->{
-            event.getFactory().cartas()
-                    .forEach(carta -> juego.mazo().agregarCarta(carta));
-        });
-
         apply((TableroCreado event)->{
             juego.tablero= new Tablero();
         });

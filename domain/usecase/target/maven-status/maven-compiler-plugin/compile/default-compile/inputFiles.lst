@@ -1,9 +1,12 @@
-/Users/kevin/Documents/kevin/SOFKA/Retos/challenge-full-stack-game/domain/usecase/src/main/java/co/com/challenge/usecase/listeners/xUseCase.java
+/Users/kevin/Documents/kevin/SOFKA/Retos/challenge-full-stack-game/domain/usecase/src/main/java/co/com/challenge/usecase/listeners/ValidarTiempoUseCase.java
+/Users/kevin/Documents/kevin/SOFKA/Retos/challenge-full-stack-game/domain/usecase/src/main/java/co/com/challenge/usecase/listeners/DescontarTiempoUseCase.java
+/Users/kevin/Documents/kevin/SOFKA/Retos/challenge-full-stack-game/domain/usecase/src/main/java/co/com/challenge/usecase/listeners/DeterminarGanadorDeRondaUseCase.java
 /Users/kevin/Documents/kevin/SOFKA/Retos/challenge-full-stack-game/domain/usecase/src/main/java/co/com/challenge/usecase/CrearJuegoUseCase.java
 /Users/kevin/Documents/kevin/SOFKA/Retos/challenge-full-stack-game/domain/usecase/src/main/java/co/com/challenge/usecase/JugarCartaUseCase.java
 /Users/kevin/Documents/kevin/SOFKA/Retos/challenge-full-stack-game/domain/usecase/src/main/java/co/com/challenge/usecase/CartaUseCase.java
-/Users/kevin/Documents/kevin/SOFKA/Retos/challenge-full-stack-game/domain/usecase/src/main/java/co/com/challenge/usecase/listeners/RepartirCartasUseCase.java
-/Users/kevin/Documents/kevin/SOFKA/Retos/challenge-full-stack-game/domain/usecase/src/main/java/co/com/challenge/usecase/AgregarCartasMazoPrincipalUseCase.java
+/Users/kevin/Documents/kevin/SOFKA/Retos/challenge-full-stack-game/domain/usecase/src/main/java/co/com/challenge/usecase/listeners/ValidarCartasApostadasUseCase.java
+/Users/kevin/Documents/kevin/SOFKA/Retos/challenge-full-stack-game/domain/usecase/src/main/java/co/com/challenge/usecase/listeners/IniciarCronometroUseCase.java
+/Users/kevin/Documents/kevin/SOFKA/Retos/challenge-full-stack-game/domain/usecase/src/main/java/co/com/challenge/usecase/RepartirCartasUseCase.java
 /Users/kevin/Documents/kevin/SOFKA/Retos/challenge-full-stack-game/domain/usecase/src/main/java/co/com/challenge/usecase/CrearJugadorUseCase.java
 /Users/kevin/Documents/kevin/SOFKA/Retos/challenge-full-stack-game/domain/usecase/src/main/java/co/com/challenge/usecase/listeners/CrearRondaUseCase.java
 /Users/kevin/Documents/kevin/SOFKA/Retos/challenge-full-stack-game/domain/usecase/src/main/java/co/com/challenge/usecase/listeners/CrearTableroUseCase.java
