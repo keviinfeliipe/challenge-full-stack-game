@@ -15,6 +15,7 @@
         <module>infrastructure/entry-points</module>
         <module>infrastructure/driven-adapters/mongo-repository</module>
         <module>infrastructure/driven-adapters/event-bus</module>
+        <module>infrastructure/driven-adapters/services</module>
     </modules>
 
     <properties>

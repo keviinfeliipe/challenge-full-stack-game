@@ -6,6 +6,8 @@ import co.com.challenge.model.juego.command.IniciarJuegoCommand;
 import co.com.challenge.model.juego.command.JugarCartaCommand;
 import co.com.challenge.usecase.*;
 import co.com.challenge.usecase.RepartirCartasUseCase;
+import co.com.challenge.usecase.model.JuegosActivos;
+import co.com.challenge.usecase.service.JuegoActivoService;
 import co.com.sofka.business.generic.UseCaseHandler;
 import co.com.sofka.business.repository.DomainEventRepository;
 import co.com.sofka.business.support.RequestCommand;
@@ -16,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.net.URI;
 import java.util.List;
@@ -31,18 +35,20 @@ public class JuegoController {
     private SubscriberEvent subscriberEvent;
     private JugarCartaUseCase jugarCartaUseCase;
     private RepartirCartasUseCase repartirCartasUseCase;
+    private JuegoActivoService juegoActivoService;
 
     public JuegoController(CrearJuegoUseCase useCase,
                            CrearJugadorUseCase crearJugadorUseCase,
                            EventStoreRepository eventStoreRepository,
                            SubscriberEvent subscriberEvent, JugarCartaUseCase jugarCartaUseCase,
-                           RepartirCartasUseCase repartirCartasUseCase) {
+                           RepartirCartasUseCase repartirCartasUseCase, JuegoActivoService juegoActivoService) {
         this.crearJuegoUseCase = useCase;
         this.crearJugadorUseCase = crearJugadorUseCase;
         this.eventStoreRepository = eventStoreRepository;
         this.subscriberEvent = subscriberEvent;
         this.jugarCartaUseCase = jugarCartaUseCase;
         this.repartirCartasUseCase = repartirCartasUseCase;
+        this.juegoActivoService = juegoActivoService;
     }
 
     @PostMapping("/crearjuego")
@@ -90,6 +96,16 @@ public class JuegoController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(null);
+    }
+
+    @GetMapping()
+    public Mono<ResponseEntity<Flux<JuegosActivos>>> juegosActivos(){
+        return Mono.just(
+                ResponseEntity
+                        .ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(juegoActivoService.obtenerJuegosActivos())
+        );
     }
 
     private DomainEventRepository domainEventRepository() {

@@ -11,8 +11,6 @@ F
 domain/usecase/pom.xml,d/b/dbdff5a8e0c3ebe1bb04c2d48f6e1da25cba4276
 y
 Idomain/model/src/main/java/co/com/challenge/model/carta/CartaMaestra.java,8/a/8a1ded5e65dcc4f8407e503edf7c4c6220bc74df
-Ñ
-Tdomain/model/src/main/java/co/com/challenge/model/carta/gateway/CartaRepository.java,8/6/8612c7a811af155e57d0f0039cc6ef9ea08886d5
 Ä
 Pdomain/model/src/main/java/co/com/challenge/model/juego/event/JugadorCreado.java,a/a/aad21aeb5899190693c1134a425705a8611ce85d
 Ü
@@ -101,8 +99,6 @@ Pdomain/model/src/main/java/co/com/challenge/model/juego/event/JuegoIniciado.jav
 Ndomain/model/src/main/java/co/com/challenge/model/juego/event/RondaCreada.java,3/5/35b255d33e18c8b403574c520b7543085e08c052
 |
 Ldomain/model/src/main/java/co/com/challenge/model/juego/TiempoTerminado.java,f/1/f147c8c40999c3e479d901bd69f500101a1388af
-7
-pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec
 t
 Dapplication/src/main/java/co/com/challenge/config/MongoDBSecret.java,b/4/b4384569cb36390d7a5b4d4427dbcc62c0c52e6e
 w
@@ -127,8 +123,6 @@ r
 Bdomain/model/src/main/java/co/com/challenge/model/juego/Carta.java,9/8/986b28bce81a7292a8ab54a5b5bd5f16091b2206
 â
 Ydomain/model/src/main/java/co/com/challenge/model/juego/event/CartaAgregadaAlTablero.java,a/2/a2b4457e8ca611acf9401169e6bab67661a9daa6
-ä
-Zinfrastructure/entry-points/src/main/java/co/com/challenge/controller/CartaController.java,c/1/c1760676f99d65a49882930135821b7e10dc3b92
 à
 Xdomain/usecase/src/main/java/co/com/challenge/usecase/listeners/CrearTableroUseCase.java,8/f/8fc45c7fbf91f467553d25dbcb5d334419a96010
 ç

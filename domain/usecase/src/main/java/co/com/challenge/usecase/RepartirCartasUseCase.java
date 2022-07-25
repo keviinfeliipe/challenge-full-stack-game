@@ -47,7 +47,7 @@ public class RepartirCartasUseCase extends UseCase<RequestCommand<IniciarJuegoCo
         var cartaFactory = new CartaFactory();
         var cartasMaestra = cartaRepository.findAll().collectList().block();
         Collections.shuffle(cartasMaestra);
-        cartasMaestra.stream().limit(30).forEach(cartaMaestra -> {
+        cartasMaestra.stream().forEach(cartaMaestra -> {
             cartaFactory.add(new Carta(CartaId.of(cartaMaestra.getId()) , cartaMaestra.getPoder()));
         });
         juego.agregarCartasMazoPrincipal(cartaFactory);
