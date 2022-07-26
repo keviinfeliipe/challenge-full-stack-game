@@ -166,4 +166,8 @@ public class Juego extends AggregateEvent<JuegoId> {
     public void crearRondaDeDesempate(Set<JugadorId> jugadores){
         appendChange(new RondaDeDesempateCreada(jugadores)).apply();
     }
+
+    public void retirarJugador(JugadorId jugadorId){
+        appendChange(new JugadorRetirado(jugadorId)).apply();
+    }
 }

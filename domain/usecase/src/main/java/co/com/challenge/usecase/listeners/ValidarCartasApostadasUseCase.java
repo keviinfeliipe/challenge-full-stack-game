@@ -20,6 +20,7 @@ public class ValidarCartasApostadasUseCase extends UseCase<TriggeredEvent<Tiempo
         var events = repository().getEventsBy("juego", juegoId.value());
         var juego = Juego.from(juegoId, events);
         var tablero = juego.tablero().cartaMap();
+        System.out.println(juego.ronda().jugadores().toString());
         juego.ronda().jugadores().forEach(jugadorId -> {
             if (!tablero.containsKey(jugadorId)){
                 var carta = apostarCartaAleatoria(juego, jugadorId);

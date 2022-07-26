@@ -1,10 +1,6 @@
 package co.com.challenge.controller;
 
-import co.com.challenge.model.juego.command.JuegoJugadorCommand;
-import co.com.challenge.model.juego.command.CrearJuegoCommand;
-import co.com.challenge.model.juego.command.CrearJugadorCommand;
-import co.com.challenge.model.juego.command.IniciarJuegoCommand;
-import co.com.challenge.model.juego.command.JugarCartaCommand;
+import co.com.challenge.model.juego.command.*;
 import co.com.challenge.usecase.*;
 import co.com.challenge.usecase.RepartirCartasUseCase;
 import co.com.challenge.usecase.model.JugadorActual;
@@ -44,12 +40,13 @@ public class JuegoController {
     private final JuegoActivoService juegoActivoService;
     private final JugadorCartasService jugadorCartasService;
     private final JuegoInformacionService juegoInformacionService;
+    private final RetirarJugadorUseCase retirarJugadorUseCase;
 
     public JuegoController(CrearJuegoUseCase useCase,
                            CrearJugadorUseCase crearJugadorUseCase,
                            EventStoreRepository eventStoreRepository,
                            SubscriberEvent subscriberEvent, JugarCartaUseCase jugarCartaUseCase,
-                           RepartirCartasUseCase repartirCartasUseCase, JuegoActivoService juegoActivoService, JugadorCartasService jugadorCartasService, JuegoInformacionService juegoInformacionService) {
+                           RepartirCartasUseCase repartirCartasUseCase, JuegoActivoService juegoActivoService, JugadorCartasService jugadorCartasService, JuegoInformacionService juegoInformacionService, RetirarJugadorUseCase retirarJugadorUseCase) {
         this.crearJuegoUseCase = useCase;
         this.crearJugadorUseCase = crearJugadorUseCase;
         this.eventStoreRepository = eventStoreRepository;
@@ -59,6 +56,7 @@ public class JuegoController {
         this.juegoActivoService = juegoActivoService;
         this.jugadorCartasService = jugadorCartasService;
         this.juegoInformacionService = juegoInformacionService;
+        this.retirarJugadorUseCase = retirarJugadorUseCase;
     }
 
     @PostMapping("/crearjuego")
@@ -138,6 +136,17 @@ public class JuegoController {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(jugador)
         );
+    }
+
+    @PostMapping("/retirarse")
+    public ResponseEntity<String> retirarJugador(@RequestBody RetirarJugadorCommand command){
+        retirarJugadorUseCase.addRepository(domainEventRepository());
+        UseCaseHandler.getInstance()
+                .asyncExecutor(retirarJugadorUseCase, new RequestCommand<>(command))
+                .subscribe(subscriberEvent);
+        return ResponseEntity.created(URI.create(""))
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(command.getJuegoId());
     }
 
 

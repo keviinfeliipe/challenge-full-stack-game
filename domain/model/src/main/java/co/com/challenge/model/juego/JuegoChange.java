@@ -9,6 +9,7 @@ import co.com.sofka.domain.generic.EventChange;
 
 
 import java.util.HashSet;
+import java.util.Objects;
 
 public class JuegoChange extends EventChange {
     public JuegoChange(Juego juego) {
@@ -109,6 +110,17 @@ public class JuegoChange extends EventChange {
         apply((CartasApostadasMostradas event)-> juego.tablero.cartaMap().forEach((jugadorId, carta) -> carta.mostrarCarta()));
 
         apply((CartasDelTableroDeshabilitadas event)-> juego.tablero().cartaMap().values().forEach(Carta::deshabilitarCarta));
+
+        apply((JugadorRetirado event)->{
+            var jugador = juego.buscarJugadorPorId(event.getJugadorId()).orElseThrow(() -> {
+                throw new IllegalArgumentException("Jugador no encontrado");
+            });
+            var factory = new CartaFactory();
+            juego.mazo.cartas().forEach(factory::add);
+            juego.agregarCartasMazoPrincipal(factory);
+            juego.ronda.jugadores().remove(jugador.identity());
+            juego.jugadores.remove(jugador);
+        });
 
     }
 
