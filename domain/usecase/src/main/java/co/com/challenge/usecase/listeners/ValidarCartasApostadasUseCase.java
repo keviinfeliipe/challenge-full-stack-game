@@ -2,6 +2,7 @@ package co.com.challenge.usecase.listeners;
 
 import co.com.challenge.model.juego.Carta;
 import co.com.challenge.model.juego.Juego;
+import co.com.challenge.model.juego.Jugador;
 import co.com.challenge.model.juego.event.TiempoTerminado;
 import co.com.challenge.model.juego.value.JuegoId;
 import co.com.challenge.model.juego.value.JugadorId;
@@ -22,7 +23,7 @@ public class ValidarCartasApostadasUseCase extends UseCase<TriggeredEvent<Tiempo
         var tablero = juego.tablero().cartaMap();
         juego.ronda().jugadores().forEach(jugadorId -> {
             if (!tablero.containsKey(jugadorId)){
-                var carta = apostarCartaAleatoria(juego, jugadorId);
+                var carta = varlidarCartasDelJugador(juego, jugadorId);
                 juego.agregarCartaAlTablero(jugadorId,carta);
                 juego.quitarCartaJugador(jugadorId, carta);
             }
@@ -31,13 +32,21 @@ public class ValidarCartasApostadasUseCase extends UseCase<TriggeredEvent<Tiempo
         emit().onResponse(new ResponseEvents(juego.getUncommittedChanges()));
     }
 
-    private Carta apostarCartaAleatoria(Juego juego, JugadorId jugadorId){
+    private Carta varlidarCartasDelJugador(Juego juego, JugadorId jugadorId){
         var jugagor = juego.buscarJugadorPorId(jugadorId).orElseThrow(() -> {
             throw new IllegalArgumentException("Jugador no encontrado");
         });
-        var cantidadDeCArtas = jugagor.mazo().cartas().size();
+        if(jugagor.mazo().cantidad()==0){
+            throw new IllegalArgumentException("El jugador no tiene más cartas");
+        }
+        return apostarCartaAleatoria(juego,jugagor);
+    }
+
+
+    private Carta apostarCartaAleatoria(Juego juego, Jugador jugagor){
+        var cantidadDeCartas = jugagor.mazo().cartas().size();
         var random = new Random();
-        var aleatorio = random.nextInt(cantidadDeCArtas);
+        var aleatorio = random.nextInt(cantidadDeCartas);
         return new ArrayList<>(jugagor.mazo()
                 .cartas())
                 .get(aleatorio);
