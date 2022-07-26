@@ -6,8 +6,6 @@ Hdomain/model/src/main/java/co/com/challenge/model/juego/value/Alias.java,4/b/4
 z
 Jdomain/model/src/main/java/co/com/challenge/model/juego/value/CartaId.java,5/0/5026b9e4447ce6e196ffba0a61a245ccaa0d2314
 Å
-Qdomain/model/src/main/java/co/com/challenge/model/juego/value/EstaHabilitada.java,a/7/a7fbed7f5a741f0ba90d3d45c0f7000508473006
-Å
 Qdomain/model/src/main/java/co/com/challenge/model/juego/value/EstaHabilitado.java,1/b/1b659401ad8b6a6f1b748d85f5e8bf185d1b667d
 }
 Mdomain/model/src/main/java/co/com/challenge/model/juego/value/EstaOculta.java,7/2/722ee7cb168a868ae258a1f82218c96ebc00d9f4

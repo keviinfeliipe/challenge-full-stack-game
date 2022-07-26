@@ -32,7 +32,9 @@ public class ValidarCartasApostadasUseCase extends UseCase<TriggeredEvent<Tiempo
     }
 
     private Carta apostarCartaAleatoria(Juego juego, JugadorId jugadorId){
-        var jugagor = juego.buscarJugadorPorId(jugadorId);
+        var jugagor = juego.buscarJugadorPorId(jugadorId).orElseThrow(() -> {
+            throw new IllegalArgumentException("Jugador no encontrado");
+        });
         var cantidadDeCArtas = jugagor.mazo().cartas().size();
         var random = new Random();
         var aleatorio = random.nextInt(cantidadDeCArtas);

@@ -9,7 +9,6 @@ import co.com.sofka.domain.generic.EventChange;
 
 
 import java.util.HashSet;
-import java.util.stream.Collectors;
 
 public class JuegoChange extends EventChange {
     public JuegoChange(Juego juego) {
@@ -19,6 +18,7 @@ public class JuegoChange extends EventChange {
             juego.jugadores.add(new Jugador(JugadorId.of(event.getJugadorId()), new Alias(event.getAlias())));
             juego.mazo = new Mazo();
             juego.jugando=false;
+            juego.cartasTemporales=new HashSet<>();
         });
 
         apply((JugadorCreado event)->{
@@ -30,19 +30,15 @@ public class JuegoChange extends EventChange {
             juego.jugadores.add(new Jugador(id,alias));
         });
 
-        apply((JuegoIniciado event)->{
-            juego.jugando=true;
-        });
+        apply((JuegoIniciado event)-> juego.jugando=true);
 
         apply((TableroCreado event)-> juego.tablero= new Tablero());
 
-        apply((RondaCreada event)->{
-            var jugadores =juego.jugadores
-                    .stream()
-                    .filter(jugador -> jugador.mazo().cantidad()>0)
-                    .map(Jugador::identity)
-                    .collect(Collectors.toSet());
-            juego.ronda = new Ronda(jugadores,new RondaNumero(jugadores.size()));
+        apply((RondaCreada event)-> juego.ronda = new Ronda(event.getJugadorIds(),new RondaNumero(event.getJugadorIds().size())));
+
+        apply((RondaDeDesempateCreada event)->{
+            juego.cartasTemporales.addAll(juego.tablero.cartaMap().values());
+            juego.tablero.cartaMap().values().removeAll(juego.cartasTemporales);
         });
 
         apply((CronometroRestablecido event)-> juego.tablero().restablecerTiempo());
@@ -59,8 +55,12 @@ public class JuegoChange extends EventChange {
         });
 
         apply((GanadorDeRondaDeterminado event)->{
-            var jugador = juego.buscarJugadorPorId(event.getJugadorId());
+            var jugador = juego.buscarJugadorPorId(event.getJugadorId()).orElseThrow(() -> {
+                throw new IllegalArgumentException("Jugador no encontrado");
+            });
             event.getFactory().cartas().forEach(jugador::agregarCartaAJugador);
+            juego.cartasTemporales.forEach(jugador::agregarCartaAJugador);
+            juego.cartasTemporales.clear();
             jugador.agragarPuntajeAJugador();
             juego.tablero=new Tablero();
         });
@@ -71,7 +71,9 @@ public class JuegoChange extends EventChange {
         });
 
         apply((CartaJugada event)->{
-            var jugador = juego.buscarJugadorPorId(JugadorId.of(event.getJugadorId()));
+            var jugador = juego.buscarJugadorPorId(JugadorId.of(event.getJugadorId())).orElseThrow(() -> {
+                throw new IllegalArgumentException("El jugado no se encuntra en la sala.");
+            });
             var carta = jugador.mazo().cartas().stream()
                     .filter(carta1 -> carta1.identity().value().equals(event.getCartaId()))
                     .findFirst()
@@ -83,25 +85,30 @@ public class JuegoChange extends EventChange {
         });
 
         apply((CartasAgregadasAJugador event)->{
-            var jugador = juego.buscarJugadorPorId(event.getJugadorId());
+            var jugador = juego.buscarJugadorPorId(event.getJugadorId()).orElseThrow(() -> {
+                throw new IllegalArgumentException("Jugador no encontrado");
+            });;
+
             event.getCartaFactory().cartas().forEach(jugador::agregarCartaAJugador);
         });
 
         apply((CartaQuitada event)->{
-            var jugador = juego.buscarJugadorPorId(event.getJugadorId());
+            var jugador = juego.buscarJugadorPorId(event.getJugadorId()).orElseThrow(() -> {
+                throw new IllegalArgumentException("Jugador no encontrado");
+            });
             jugador.quitarCartaAJugador(event.getCarta());
         });
 
         apply((CartaAgregadaAlTablero event)->{
-            var jugador = juego.buscarJugadorPorId(event.getJugadorId());
+            var jugador = juego.buscarJugadorPorId(event.getJugadorId()).orElseThrow(() -> {
+                throw new IllegalArgumentException("Jugador no encontrado");
+            });
             juego.tablero.cartaMap().put(jugador.identity(),event.getCarta());
         });
 
-        apply((CartasApostadasMostradas event)->{
-            juego.tablero.cartaMap().forEach((jugadorId, carta) -> carta.mostrarCarta());
-        });
+        apply((CartasApostadasMostradas event)-> juego.tablero.cartaMap().forEach((jugadorId, carta) -> carta.mostrarCarta()));
 
-
+        apply((CartasDelTableroDeshabilitadas event)-> juego.tablero().cartaMap().values().forEach(Carta::deshabilitarCarta));
 
     }
 

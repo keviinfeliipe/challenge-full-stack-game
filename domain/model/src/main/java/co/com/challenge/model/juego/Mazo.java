@@ -25,6 +25,7 @@ public class Mazo extends Entity<MazoId> {
 
     public void agregarCarta(Carta carta){
         carta.ocultarCarta();
+
         this.cartas.add(carta);
         this.cantidad+=1;
     }

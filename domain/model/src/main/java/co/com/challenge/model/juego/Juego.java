@@ -6,6 +6,7 @@ import co.com.sofka.domain.generic.AggregateEvent;
 import co.com.sofka.domain.generic.DomainEvent;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class Juego extends AggregateEvent<JuegoId> {
@@ -16,6 +17,7 @@ public class Juego extends AggregateEvent<JuegoId> {
     protected Jugador ganador;
     protected Mazo mazo;
     protected Boolean jugando;
+    protected Set<Carta> cartasTemporales;
 
     public Juego(JuegoId juegoId, String jugadorId, String alias) {
         super(juegoId);
@@ -58,6 +60,10 @@ public class Juego extends AggregateEvent<JuegoId> {
         return mazo;
     }
 
+    public Set<Carta> cartasTemporales() {
+        return cartasTemporales;
+    }
+
     public void crearJugador(String jugadorId, String alias){
         appendChange(new JugadorCreado(jugadorId,alias)).apply();
     }
@@ -70,8 +76,8 @@ public class Juego extends AggregateEvent<JuegoId> {
         appendChange(new TableroCreado()).apply();
     }
 
-    public void crearRonda(){
-        appendChange(new RondaCreada()).apply();
+    public void crearRonda(Set<JugadorId> jugadorIds){
+        appendChange(new RondaCreada(jugadorIds)).apply();
     }
 
     public void repartirCartas(){
@@ -126,12 +132,11 @@ public class Juego extends AggregateEvent<JuegoId> {
         appendChange(new TableroDeshabilitado()).apply();
     }
 
-    public Jugador buscarJugadorPorId(JugadorId id){
+    public Optional<Jugador> buscarJugadorPorId(JugadorId id){
         return jugadores()
                 .stream()
                 .filter(suscriptor -> suscriptor.identity().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("No se encontró el jugador"));
+                .findFirst();
     }
 
     public void cambiarEstadoDelTablero(Boolean aBoolean){
@@ -152,5 +157,13 @@ public class Juego extends AggregateEvent<JuegoId> {
 
     public void mostrarJuego(JuegoId juegoId, List<Jugador> jugadores, Boolean jugando) {
         appendChange(new JuegoMostrado(juegoId, jugadores, jugando)).apply();
+    }
+
+    public void deshabilitarCartasDelTablero(){
+        appendChange(new CartasDelTableroDeshabilitadas()).apply();
+    }
+
+    public void crearRondaDeDesempate(Set<JugadorId> jugadores){
+        appendChange(new RondaDeDesempateCreada(jugadores)).apply();
     }
 }

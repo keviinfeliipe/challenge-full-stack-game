@@ -48,4 +48,5 @@ public class Jugador extends Entity<JugadorId> {
         return puntaje;
     }
 
+
 }

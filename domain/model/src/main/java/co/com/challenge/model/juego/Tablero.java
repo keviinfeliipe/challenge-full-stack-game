@@ -27,7 +27,7 @@ public class Tablero extends Entity<TableroId> {
     }
 
     public void restablecerTiempo(){
-        this.tiempo = new Tiempo(60);
+        this.tiempo = new Tiempo(1);
     }
 
     public void descontarTiempo(){
@@ -44,5 +44,15 @@ public class Tablero extends Entity<TableroId> {
 
     public EstaHabilitado habilitado() {
         return habilitado;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Tablero{");
+        sb.append("cartaMap=").append(cartaMap);
+        sb.append(", tiempo=").append(tiempo);
+        sb.append(", habilitado=").append(habilitado);
+        sb.append('}');
+        return sb.toString();
     }
 }

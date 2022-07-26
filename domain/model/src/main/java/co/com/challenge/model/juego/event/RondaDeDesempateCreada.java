@@ -5,11 +5,11 @@ import co.com.sofka.domain.generic.DomainEvent;
 
 import java.util.Set;
 
-public class RondaCreada extends DomainEvent {
+public class RondaDeDesempateCreada extends DomainEvent {
     private final Set<JugadorId> jugadorIds;
 
-    public RondaCreada(Set<JugadorId> jugadorIds) {
-        super("juego.RondaCreada");
+    public RondaDeDesempateCreada(Set<JugadorId> jugadorIds) {
+        super("juego.RondaDeDesempateCreada");
         this.jugadorIds = jugadorIds;
     }
 

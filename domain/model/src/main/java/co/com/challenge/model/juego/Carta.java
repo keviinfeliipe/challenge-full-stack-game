@@ -26,6 +26,14 @@ public class Carta extends Entity<CartaId> {
         this.oculta = new EstaOculta(true);
     }
 
+    public void habilitarCarta(){
+        this.habilitada = new EstaHabilitada(true);
+    }
+
+    public void deshabilitarCarta(){
+        this.habilitada = new EstaHabilitada(false);
+    }
+
     public Integer xp() {
         return xp;
     }
@@ -38,13 +46,4 @@ public class Carta extends Entity<CartaId> {
         return habilitada;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Carta{");
-        sb.append("oculta=").append(oculta);
-        sb.append(", habilitada=").append(habilitada);
-        sb.append(", xp=").append(xp);
-        sb.append('}');
-        return sb.toString();
-    }
 }

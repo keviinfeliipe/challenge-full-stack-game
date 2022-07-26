@@ -23,7 +23,11 @@ public class DeterminarGanadorDeRondaUseCase extends UseCase<TriggeredEvent<Cart
         var juego = Juego.from(juegoId, events);
         var cartasConMayorValor = cartasConMayorValor(juego.tablero().cartaMap());
         if(cartasConMayorValor.size()>1){
-            System.out.println("Empate +++++++++++++++++++++++++++");
+            System.out.println("+++++++++++++++++++++++++++ Empate +++++++++++++++++++++++++++");
+            juego.deshabilitarCartasDelTablero();
+            var jugadoresEmpatados = cartasConMayorValor.keySet();
+            juego.crearRondaDeDesempate(jugadoresEmpatados);
+            juego.crearRonda(jugadoresEmpatados);
         }else{
             var idJugadorGanador = cartasConMayorValor.keySet().stream().findFirst().orElseThrow();
             var cartaFactory = new CartaFactory();
@@ -31,14 +35,14 @@ public class DeterminarGanadorDeRondaUseCase extends UseCase<TriggeredEvent<Cart
             juego.determinarGanador(idJugadorGanador,cartaFactory);
             var jugadoresActivos = juegadoresConCartasEnJuego(juego);
             if(jugadoresActivos.size()>1){
-                juego.crearRonda();
+                juego.crearRonda(juegadoresConCartas(juego));
             }else{
                 var ganador = jugadoresActivos.stream().findFirst().orElseThrow();
                 juego.determinarGanadorDeJuego(ganador);
             }
 
         }
-        juego.mostrarJuego(juego.identity(), new ArrayList<Jugador>(juego.jugadores()), juego.jugando());
+        juego.mostrarJuego(juego.identity(), new ArrayList<>(juego.jugadores()), juego.jugando());
         emit().onResponse(new ResponseEvents(juego.getUncommittedChanges()));
     }
 
@@ -49,13 +53,25 @@ public class DeterminarGanadorDeRondaUseCase extends UseCase<TriggeredEvent<Cart
     private Map<JugadorId, Carta> cartasConMayorValor(Map<JugadorId, Carta> map){
         Map<JugadorId, Carta> mapResponse = new HashMap<>();
         HashMap<JugadorId, Carta> nuevoMap = new HashMap<>(map);
-        var mayor = map.values().stream().max(Comparator.comparing(Carta::xp)).orElseThrow();
+        var mayor = map.values()
+                .stream()
+                .filter(carta -> carta.habilitada().value())
+                .max(Comparator.comparing(Carta::xp))
+                .orElseThrow();
         nuevoMap.forEach((jugadorId, carta) -> {
             if (Objects.equals(carta.xp(), mayor.xp())){
                 mapResponse.put(jugadorId, carta);
             }
         });
         return mapResponse;
+    }
+
+    private Set<JugadorId> juegadoresConCartas(Juego juego){
+        return juego.jugadores()
+                .stream()
+                .filter(jugador -> jugador.mazo().cantidad()>0)
+                .map(Jugador::identity)
+                .collect(Collectors.toSet());
     }
 }
 
