@@ -59,9 +59,14 @@ public class JuegoChange extends EventChange {
             var jugador = juego.buscarJugadorPorId(event.getJugadorId()).orElseThrow(() -> {
                 throw new IllegalArgumentException("Jugador no encontrado");
             });
+
             event.getFactory().cartas().forEach(jugador::agregarCartaAJugador);
             juego.cartasTemporales.forEach(jugador::agregarCartaAJugador);
             juego.cartasTemporales.clear();
+
+            //juego.cartasTemporales.forEach(carta -> event.getFactory().add(carta));
+            //juego.cartasTemporales.clear();
+            //juego.cartasTemporales.forEach(jugador::agregarCartaAJugador);
             jugador.agragarPuntajeAJugador();
             juego.tablero=new Tablero();
         });

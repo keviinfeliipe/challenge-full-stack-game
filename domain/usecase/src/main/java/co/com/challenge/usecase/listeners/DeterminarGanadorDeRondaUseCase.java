@@ -23,27 +23,38 @@ public class DeterminarGanadorDeRondaUseCase extends UseCase<TriggeredEvent<Cart
         var juego = Juego.from(juegoId, events);
         var cartasConMayorValor = cartasConMayorValor(juego.tablero().cartaMap());
         if(cartasConMayorValor.size()>1){
-            System.out.println("+++++++++++++++++++++++++++ Empate +++++++++++++++++++++++++++");
-            juego.deshabilitarCartasDelTablero();
-            var jugadoresEmpatados = cartasConMayorValor.keySet();
-            juego.crearRondaDeDesempate(jugadoresEmpatados);
-            juego.crearRonda(jugadoresEmpatados);
+            desempatarJuego(juego, cartasConMayorValor);
         }else{
-            var idJugadorGanador = cartasConMayorValor.keySet().stream().findFirst().orElseThrow();
-            var cartaFactory = new CartaFactory();
-            juego.tablero().cartaMap().values().forEach(cartaFactory::add);
-            juego.determinarGanador(idJugadorGanador,cartaFactory);
-            var jugadoresActivos = juegadoresConCartasEnJuego(juego);
-            if(jugadoresActivos.size()>1){
-                juego.crearRonda(juegadoresConCartas(juego));
-            }else{
-                var ganador = jugadoresActivos.stream().findFirst().orElseThrow();
-                juego.determinarGanadorDeJuego(ganador);
-            }
-
+            ganadorDeLaRonda(juego, cartasConMayorValor);
         }
         juego.mostrarJuego(juego.identity(), new ArrayList<>(juego.jugadores()), juego.jugando());
         emit().onResponse(new ResponseEvents(juego.getUncommittedChanges()));
+    }
+
+    private void ganadorDeLaRonda(Juego juego, Map<JugadorId, Carta> cartasConMayorValor) {
+        var idJugadorGanador = cartasConMayorValor.keySet().stream().findFirst().orElseThrow();
+        var cartaFactory = new CartaFactory();
+        juego.tablero().cartaMap().values().forEach(cartaFactory::add);
+        juego.determinarGanadorDeLaRonda(idJugadorGanador,cartaFactory);
+        var jugadoresActivos = juegadoresConCartasEnJuego(juego);
+        validarNuevaRonda(juego, jugadoresActivos);
+    }
+
+    private void validarNuevaRonda(Juego juego, Set<Jugador> jugadoresActivos) {
+        if(jugadoresActivos.size()>1){
+            juego.crearRonda(juegadoresConCartas(juego));
+        }else{
+            var ganador = jugadoresActivos.stream().findFirst().orElseThrow();
+            juego.determinarGanadorDeJuego(ganador);
+        }
+    }
+
+    private void desempatarJuego(Juego juego, Map<JugadorId, Carta> cartasConMayorValor) {
+        System.out.println("+++++++++++++++++++++++++++ Empate +++++++++++++++++++++++++++");
+        juego.deshabilitarCartasDelTablero();
+        var jugadoresEmpatados = cartasConMayorValor.keySet();
+        juego.crearRondaDeDesempate(jugadoresEmpatados);
+        juego.crearRonda(jugadoresEmpatados);
     }
 
     private Set<Jugador> juegadoresConCartasEnJuego(Juego juego){

@@ -116,7 +116,7 @@ public class Juego extends AggregateEvent<JuegoId> {
         appendChange(new TiempoTerminado()).apply();
     }
 
-    public void determinarGanador(JugadorId jugadorId,CartaFactory factory){
+    public void determinarGanadorDeLaRonda(JugadorId jugadorId, CartaFactory factory){
         appendChange(new GanadorDeRondaDeterminado(jugadorId,factory)).apply();
     }
 
