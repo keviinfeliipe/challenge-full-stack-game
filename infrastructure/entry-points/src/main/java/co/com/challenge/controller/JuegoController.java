@@ -7,9 +7,11 @@ import co.com.challenge.model.juego.command.IniciarJuegoCommand;
 import co.com.challenge.model.juego.command.JugarCartaCommand;
 import co.com.challenge.usecase.*;
 import co.com.challenge.usecase.RepartirCartasUseCase;
-import co.com.challenge.usecase.model.JuegadorActual;
+import co.com.challenge.usecase.model.JugadorActual;
 import co.com.challenge.usecase.model.JuegoActivo;
+import co.com.challenge.usecase.model.JuegoInformacion;
 import co.com.challenge.usecase.service.JuegoActivoService;
+import co.com.challenge.usecase.service.JuegoInformacionService;
 import co.com.challenge.usecase.service.JugadorCartasService;
 import co.com.sofka.business.generic.UseCaseHandler;
 import co.com.sofka.business.repository.DomainEventRepository;
@@ -41,12 +43,13 @@ public class JuegoController {
     private final RepartirCartasUseCase repartirCartasUseCase;
     private final JuegoActivoService juegoActivoService;
     private final JugadorCartasService jugadorCartasService;
+    private final JuegoInformacionService juegoInformacionService;
 
     public JuegoController(CrearJuegoUseCase useCase,
                            CrearJugadorUseCase crearJugadorUseCase,
                            EventStoreRepository eventStoreRepository,
                            SubscriberEvent subscriberEvent, JugarCartaUseCase jugarCartaUseCase,
-                           RepartirCartasUseCase repartirCartasUseCase, JuegoActivoService juegoActivoService, JugadorCartasService jugadorCartasService) {
+                           RepartirCartasUseCase repartirCartasUseCase, JuegoActivoService juegoActivoService, JugadorCartasService jugadorCartasService, JuegoInformacionService juegoInformacionService) {
         this.crearJuegoUseCase = useCase;
         this.crearJugadorUseCase = crearJugadorUseCase;
         this.eventStoreRepository = eventStoreRepository;
@@ -55,6 +58,7 @@ public class JuegoController {
         this.repartirCartasUseCase = repartirCartasUseCase;
         this.juegoActivoService = juegoActivoService;
         this.jugadorCartasService = jugadorCartasService;
+        this.juegoInformacionService = juegoInformacionService;
     }
 
     @PostMapping("/crearjuego")
@@ -115,8 +119,19 @@ public class JuegoController {
     }
 
     @PostMapping("/jugador")
-    public Mono<ResponseEntity<Flux<JuegadorActual>>> jugadorCartas(@RequestBody JuegoJugadorCommand juegoJugador){
+    public Mono<ResponseEntity<Flux<JugadorActual>>> jugadorCartas(@RequestBody JuegoJugadorCommand juegoJugador){
         var jugador = jugadorCartasService.obtenerCartasDeJugador(juegoJugador.getJuegoId(), juegoJugador.getJugadorId());
+        return Mono.just(
+                ResponseEntity
+                        .ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(jugador)
+        );
+    }
+
+    @GetMapping("/{id}")
+    public Mono<ResponseEntity<Mono<JuegoInformacion>>> obtenerInformacionDeJuego(@PathVariable String id){
+        var jugador = juegoInformacionService.obtenerInformacionDelJuego(id);
         return Mono.just(
                 ResponseEntity
                         .ok()

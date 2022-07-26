@@ -38,7 +38,7 @@ public class DeterminarGanadorDeRondaUseCase extends UseCase<TriggeredEvent<Cart
             }
 
         }
-        juego.mostrarJuego(juego.identity(), new ArrayList<Jugador>(juego.jugadores()));
+        juego.mostrarJuego(juego.identity(), new ArrayList<Jugador>(juego.jugadores()), juego.jugando());
         emit().onResponse(new ResponseEvents(juego.getUncommittedChanges()));
     }
 

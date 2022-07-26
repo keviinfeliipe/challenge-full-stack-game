@@ -40,7 +40,7 @@ public class RepartirCartasUseCase extends UseCase<RequestCommand<IniciarJuegoCo
             eliminarCartas();
         });
         juego.repartirCartas();
-        juego.mostrarJuego(juego.identity(), new ArrayList<>(juego.jugadores()));
+        juego.mostrarJuego(juego.identity(), new ArrayList<>(juego.jugadores()), juego.jugando());
         emit().onResponse(new ResponseEvents(juego.getUncommittedChanges()));
     }
 

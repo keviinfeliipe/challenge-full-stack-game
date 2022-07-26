@@ -3,17 +3,17 @@ package co.com.challenge.usecase.model;
 import java.util.Date;
 import java.util.List;
 
-public class JuegadorActual {
+public class JugadorActual {
 
     private String jugadorId;
     private List<Carta> cartas;
     private Integer puntaje;
     private Date when;
 
-    public JuegadorActual() {
+    public JugadorActual() {
     }
 
-    public JuegadorActual(String jugadorId, List<Carta> cartas, Integer puntaje, Date when) {
+    public JugadorActual(String jugadorId, List<Carta> cartas, Integer puntaje, Date when) {
         this.jugadorId = jugadorId;
         this.cartas = cartas;
         this.puntaje = puntaje;

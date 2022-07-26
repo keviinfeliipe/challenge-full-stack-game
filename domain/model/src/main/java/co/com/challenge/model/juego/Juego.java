@@ -146,7 +146,7 @@ public class Juego extends AggregateEvent<JuegoId> {
         factory.cartas().forEach(carta -> mazo.agregarCarta(carta));
     }
 
-    public void mostrarJuego(JuegoId juegoId, List<Jugador> jugadores) {
-        appendChange(new JuegoMostrado(juegoId, jugadores)).apply();
+    public void mostrarJuego(JuegoId juegoId, List<Jugador> jugadores, Boolean jugando) {
+        appendChange(new JuegoMostrado(juegoId, jugadores, jugando)).apply();
     }
 }

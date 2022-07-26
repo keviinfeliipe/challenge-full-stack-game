@@ -43,8 +43,6 @@ g
 7infrastructure/driven-adapters/mongo-repository/pom.xml,0/4/04e5f4eaddaa41470f7bbe79513e6dc05f0ce9ae
 D
 domain/model/pom.xml,3/d/3d8e72321acaed33f50bad4cdeb02fd5e6c7fd48
-C
-application/pom.xml,c/8/c8e09e04d708c7173c1ba2685d2316cc2ad28f74
 o
 ?application/src/main/java/co/com/challenge/MainApplication.java,3/a/3afad496defed803f5925cc363fbac86e9020642
 S

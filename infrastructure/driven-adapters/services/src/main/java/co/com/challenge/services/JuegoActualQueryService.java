@@ -1,7 +1,7 @@
 package co.com.challenge.services;
 
 import co.com.challenge.usecase.model.Carta;
-import co.com.challenge.usecase.model.JuegadorActual;
+import co.com.challenge.usecase.model.JugadorActual;
 import co.com.challenge.usecase.service.JugadorCartasService;
 import com.google.gson.Gson;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
@@ -28,12 +28,12 @@ public class JuegoActualQueryService implements JugadorCartasService {
     }
 
     @Override
-    public Flux<JuegadorActual> obtenerCartasDeJugador(String juegoId, String jugadorId) {
+    public Flux<JugadorActual> obtenerCartasDeJugador(String juegoId, String jugadorId) {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         var query = new Query(where("aggregateRootId").is(juegoId));
 
-        var jugadores = new ArrayList<JuegadorActual>();
+        var jugadores = new ArrayList<JugadorActual>();
         return mongoTemplate.find(query,String.class, "juego.JuegoMostrado")
                 .map(s -> new Gson().fromJson(s, JuegoJugadorRecord.class))
                 .map(juegoJugadorRecord -> {
@@ -41,8 +41,8 @@ public class JuegoActualQueryService implements JugadorCartasService {
                     try {
                         Date date = sdf.parse(juegoJugadorRecord.getWhen().get$date());
 
-                        juegoJugadorRecord.getJugadorId().forEach(jugador1 -> {
-                            var jugador = new JuegadorActual();
+                        juegoJugadorRecord.getJugadores().forEach(jugador1 -> {
+                            var jugador = new JugadorActual();
                             jugador.setWhen(date);
                             jugador.setJugadorId(jugador1.entityId.uuid);
                             jugador.setPuntaje(jugador1.puntaje.value);
@@ -58,21 +58,21 @@ public class JuegoActualQueryService implements JugadorCartasService {
                     return jugadores;
                 }).flatMap(Flux::fromIterable)
                 .filter(juegadorActual -> juegadorActual.getJugadorId().equals(jugadorId))
-                .sort(Comparator.comparing(JuegadorActual::getWhen).reversed())
+                .sort(Comparator.comparing(JugadorActual::getWhen).reversed())
                 .take(1);
     }
 
     class JuegoJugadorRecord{
         private JuegoId juegoId;
-        private List<Jugador> jugadorId;
+        private List<Jugador> jugadores;
         private When when;
 
         public JuegoId getJuegId() {
             return juegoId;
         }
 
-        public List<Jugador> getJugadorId() {
-            return jugadorId;
+        public List<Jugador> getJugadores() {
+            return jugadores;
         }
 
         public When getWhen() {

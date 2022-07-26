@@ -17,6 +17,7 @@ public class IniciarCronometroUseCase extends UseCase<TriggeredEvent<RondaCreada
 
         juego.restablecerCronometro();
         juego.habiltarTablero();
+
         juego.iniciarCronometro();
 
         emit().onResponse(new ResponseEvents(juego.getUncommittedChanges()));
