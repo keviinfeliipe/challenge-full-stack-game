@@ -27,7 +27,7 @@ public class DeterminarGanadorDeRondaUseCase extends UseCase<TriggeredEvent<Cart
         }else{
             var idJugadorGanador = cartasConMayorValor.keySet().stream().findFirst().orElseThrow();
             var cartaFactory = new CartaFactory();
-            juego.tablero().cartaMap().values().stream().forEach(cartaFactory::add);
+            juego.tablero().cartaMap().values().forEach(cartaFactory::add);
             juego.determinarGanador(idJugadorGanador,cartaFactory);
             var jugadoresActivos = juegadoresConCartasEnJuego(juego);
             if(jugadoresActivos.size()>1){
@@ -38,6 +38,7 @@ public class DeterminarGanadorDeRondaUseCase extends UseCase<TriggeredEvent<Cart
             }
 
         }
+        juego.mostrarJuego(juego.identity(), new ArrayList<Jugador>(juego.jugadores()));
         emit().onResponse(new ResponseEvents(juego.getUncommittedChanges()));
     }
 
@@ -46,12 +47,11 @@ public class DeterminarGanadorDeRondaUseCase extends UseCase<TriggeredEvent<Cart
     }
 
     private Map<JugadorId, Carta> cartasConMayorValor(Map<JugadorId, Carta> map){
-        HashMap<JugadorId, Carta> nuevoMap = new HashMap<>();
         Map<JugadorId, Carta> mapResponse = new HashMap<>();
-        map.entrySet().forEach(jugadorIdCartaEntry -> nuevoMap.put(jugadorIdCartaEntry.getKey(),jugadorIdCartaEntry.getValue()));
+        HashMap<JugadorId, Carta> nuevoMap = new HashMap<>(map);
         var mayor = map.values().stream().max(Comparator.comparing(Carta::xp)).orElseThrow();
         nuevoMap.forEach((jugadorId, carta) -> {
-            if (carta.xp()==mayor.xp()){
+            if (Objects.equals(carta.xp(), mayor.xp())){
                 mapResponse.put(jugadorId, carta);
             }
         });

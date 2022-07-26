@@ -48,14 +48,4 @@ public class Jugador extends Entity<JugadorId> {
         return puntaje;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Jugador{");
-        sb.append("usuarioId=").append(usuarioId);
-        sb.append(", alias=").append(alias);
-        sb.append(", mazo=").append(mazo);
-        sb.append(", puntaje=").append(puntaje);
-        sb.append('}');
-        return sb.toString();
-    }
 }

@@ -4,7 +4,6 @@ import co.com.challenge.model.juego.value.MazoId;
 import co.com.sofka.domain.generic.Entity;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 public class Mazo extends Entity<MazoId> {

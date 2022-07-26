@@ -3,7 +3,6 @@ package co.com.challenge.model.juego;
 import co.com.challenge.model.juego.value.CartaId;
 import co.com.challenge.model.juego.value.EstaHabilitada;
 import co.com.challenge.model.juego.value.EstaOculta;
-import co.com.challenge.model.juego.value.Xp;
 import co.com.sofka.domain.generic.Entity;
 
 public class Carta extends Entity<CartaId> {

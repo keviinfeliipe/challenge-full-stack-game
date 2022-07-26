@@ -1,13 +1,14 @@
 package co.com.challenge.controller;
 
+import co.com.challenge.model.juego.command.JuegoJugadorCommand;
 import co.com.challenge.model.juego.command.CrearJuegoCommand;
 import co.com.challenge.model.juego.command.CrearJugadorCommand;
 import co.com.challenge.model.juego.command.IniciarJuegoCommand;
 import co.com.challenge.model.juego.command.JugarCartaCommand;
 import co.com.challenge.usecase.*;
 import co.com.challenge.usecase.RepartirCartasUseCase;
+import co.com.challenge.usecase.model.JuegadorActual;
 import co.com.challenge.usecase.model.JuegoActivo;
-import co.com.challenge.usecase.model.JugadorCartas;
 import co.com.challenge.usecase.service.JuegoActivoService;
 import co.com.challenge.usecase.service.JugadorCartasService;
 import co.com.sofka.business.generic.UseCaseHandler;
@@ -31,14 +32,15 @@ import java.util.List;
 @RequestMapping("/api/v1/juego")
 public class JuegoController {
 
-    private CrearJuegoUseCase crearJuegoUseCase;
-    private CrearJugadorUseCase crearJugadorUseCase;
-    private EventStoreRepository eventStoreRepository;
-    private SubscriberEvent subscriberEvent;
-    private JugarCartaUseCase jugarCartaUseCase;
-    private RepartirCartasUseCase repartirCartasUseCase;
-    private JuegoActivoService juegoActivoService;
-    private JugadorCartasService jugadorCartasService;
+
+    private final CrearJuegoUseCase crearJuegoUseCase;
+    private final CrearJugadorUseCase crearJugadorUseCase;
+    private final EventStoreRepository eventStoreRepository;
+    private final SubscriberEvent subscriberEvent;
+    private final JugarCartaUseCase jugarCartaUseCase;
+    private final RepartirCartasUseCase repartirCartasUseCase;
+    private final JuegoActivoService juegoActivoService;
+    private final JugadorCartasService jugadorCartasService;
 
     public JuegoController(CrearJuegoUseCase useCase,
                            CrearJugadorUseCase crearJugadorUseCase,
@@ -112,13 +114,14 @@ public class JuegoController {
         );
     }
 
-    @GetMapping("/xxx")
-    public Mono<ResponseEntity<Mono<JugadorCartas>>> jugadorCartas(){
+    @PostMapping("/jugador")
+    public Mono<ResponseEntity<Flux<JuegadorActual>>> jugadorCartas(@RequestBody JuegoJugadorCommand juegoJugador){
+        var jugador = jugadorCartasService.obtenerCartasDeJugador(juegoJugador.getJuegoId(), juegoJugador.getJugadorId());
         return Mono.just(
                 ResponseEntity
                         .ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(jugadorCartasService.obtenerCartasDeJugador())
+                        .body(jugador)
         );
     }
 

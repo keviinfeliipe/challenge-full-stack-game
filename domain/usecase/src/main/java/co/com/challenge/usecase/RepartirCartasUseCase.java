@@ -40,6 +40,7 @@ public class RepartirCartasUseCase extends UseCase<RequestCommand<IniciarJuegoCo
             eliminarCartas();
         });
         juego.repartirCartas();
+        juego.mostrarJuego(juego.identity(), new ArrayList<>(juego.jugadores()));
         emit().onResponse(new ResponseEvents(juego.getUncommittedChanges()));
     }
 
@@ -47,7 +48,7 @@ public class RepartirCartasUseCase extends UseCase<RequestCommand<IniciarJuegoCo
         var cartaFactory = new CartaFactory();
         var cartasMaestra = cartaRepository.findAll().collectList().block();
         Collections.shuffle(cartasMaestra);
-        cartasMaestra.stream().forEach(cartaMaestra -> {
+        cartasMaestra.forEach(cartaMaestra -> {
             cartaFactory.add(new Carta(CartaId.of(cartaMaestra.getId()) , cartaMaestra.getPoder()));
         });
         juego.agregarCartasMazoPrincipal(cartaFactory);

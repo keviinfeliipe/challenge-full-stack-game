@@ -3,27 +3,25 @@ package co.com.challenge.services;
 import co.com.challenge.usecase.model.JuegoActivo;
 import co.com.challenge.usecase.service.JuegoActivoService;
 import com.google.gson.Gson;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
-import java.util.stream.Collectors;
 
 @Service
 public class JuegoActivoQueryService implements JuegoActivoService {
 
-    private final MongoTemplate mongoTemplate;
+    private final ReactiveMongoTemplate mongoTemplate;
 
-    public JuegoActivoQueryService(MongoTemplate mongoTemplate) {
+    public JuegoActivoQueryService(ReactiveMongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 
     @Override
     public Flux<JuegoActivo> obtenerJuegosActivos() {
 
-        return Flux.fromIterable(mongoTemplate
+        return mongoTemplate
                 .findAll(String.class, "juego.JuegoCreado")
-                .stream()
                 .map(s -> new Gson().fromJson(s,JuegoIdRecord.class))
                 .map(juegoIdRecord -> {
                     var juegoActivo = new JuegoActivo();
@@ -31,7 +29,7 @@ public class JuegoActivoQueryService implements JuegoActivoService {
                     juegoActivo.setJugadorId(juegoIdRecord.getJugadorId());
                     juegoActivo.setAlias(juegoIdRecord.getAlias());
                     return juegoActivo;
-                }).collect(Collectors.toList()));
+                });
     }
 
     class JuegoIdRecord{

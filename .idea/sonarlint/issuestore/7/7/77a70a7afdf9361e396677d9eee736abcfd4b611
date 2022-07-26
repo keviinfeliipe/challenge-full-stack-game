@@ -1,26 +1,0 @@
-
-I
-java:S1172".Remove this unused method parameter "request".(æ˜šïüÿÿÿÿ
-Q	java:S125"<This block of commented-out lines of code should be removed.(©ùŸ
-i
-java:S1128"SRemove this unused import 'co.com.challenge.model.juego.command.CrearJuegoCommand'.(‘Çöë
-_
-java:S1128"IRemove this unused import 'co.com.sofka.business.generic.UseCaseHandler'.(³½öğ
-d
-java:S1128"IRemove this unused import 'co.com.sofka.business.support.RequestCommand'.(Ã¸¿üÿÿÿÿ
-V
-java:S1128";Remove this unused import 'lombok.RequiredArgsConstructor'.(ÑØúøÿÿÿÿ
-Z
-java:S1128"?Remove this unused import 'org.springframework.http.MediaType'.(úŸİ¯şÿÿÿÿ
-`
-java:S1128"ERemove this unused import 'org.springframework.stereotype.Component'.(Ş÷Ñ¸ÿÿÿÿÿ
-t
-java:S1128"^Remove this unused import 'org.springframework.web.reactive.function.BodyInserters.fromValue'.(§ó‰
-?
-java:S1128")Remove this unused import 'java.net.URI'.(Ö¦¨°
-A
-java:S1068"+Remove this unused "useCase" private field.(ôÔåæ
-N
-java:S1068"3Remove this unused "subscriberEvent" private field.(”¤ùµúÿÿÿÿ
-P
-java:S11442":Remove this unused private "domainEventRepository" method.(ğÒá

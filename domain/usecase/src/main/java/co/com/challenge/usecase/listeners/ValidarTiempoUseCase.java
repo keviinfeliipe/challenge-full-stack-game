@@ -1,7 +1,7 @@
 package co.com.challenge.usecase.listeners;
 
 import co.com.challenge.model.juego.Juego;
-import co.com.challenge.model.juego.TiempoDescontado;
+import co.com.challenge.model.juego.event.TiempoDescontado;
 import co.com.challenge.model.juego.value.JuegoId;
 import co.com.sofka.business.generic.UseCase;
 import co.com.sofka.business.support.ResponseEvents;

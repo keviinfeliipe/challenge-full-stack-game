@@ -1,8 +1,8 @@
 package co.com.challenge.usecase.service;
 
-import co.com.challenge.usecase.model.JugadorCartas;
-import reactor.core.publisher.Mono;
+import co.com.challenge.usecase.model.JuegadorActual;
+import reactor.core.publisher.Flux;
 
 public interface JugadorCartasService {
-    Mono<JugadorCartas> obtenerCartasDeJugador();
+    Flux<JuegadorActual> obtenerCartasDeJugador(String juegoId, String jugadorId);
 }

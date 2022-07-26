@@ -30,9 +30,7 @@ public class JuegoChange extends EventChange {
             juego.jugadores.add(new Jugador(id,alias));
         });
 
-        apply((TableroCreado event)->{
-            juego.tablero= new Tablero();
-        });
+        apply((TableroCreado event)-> juego.tablero= new Tablero());
 
         apply((RondaCreada event)->{
             var jugadores =juego.jugadores
@@ -43,22 +41,14 @@ public class JuegoChange extends EventChange {
             juego.ronda = new Ronda(jugadores,new RondaNumero(jugadores.size()));
         });
 
-        apply((CronometroRestablecido event)->{
-            juego.tablero().restablecerTiempo();
-        });
+        apply((CronometroRestablecido event)-> juego.tablero().restablecerTiempo());
 
-        apply((TableroHabilitado event)->{
-            juego.cambiarEstadoDelTablero(true);
-        });
+        apply((TableroHabilitado event)-> juego.cambiarEstadoDelTablero(true));
 
 
-        apply((TiempoDescontado event)->{
-            juego.tablero.descontarTiempo();
-        });
+        apply((TiempoDescontado event)-> juego.tablero.descontarTiempo());
 
-        apply((TableroDeshabilitado event)->{
-            juego.cambiarEstadoDelTablero(false);
-        });
+        apply((TableroDeshabilitado event)-> juego.cambiarEstadoDelTablero(false));
 
         apply((CartaAlAzarSeleccionada event)->{
 
@@ -66,14 +56,12 @@ public class JuegoChange extends EventChange {
 
         apply((GanadorDeRondaDeterminado event)->{
             var jugador = juego.buscarJugadorPorId(event.getJugadorId());
-            event.getFactory().cartas().forEach(carta -> jugador.agregarCartaAJugador(carta));
+            event.getFactory().cartas().forEach(jugador::agregarCartaAJugador);
             jugador.agragarPuntajeAJugador();
             juego.tablero=new Tablero();
         });
 
-        apply((GanadorDeJuegoDeterminado event)->{
-            juego.ganador=event.getGanador();
-        });
+        apply((GanadorDeJuegoDeterminado event)-> juego.ganador=event.getGanador());
 
         apply((CartaJugada event)->{
             var jugador = juego.buscarJugadorPorId(JugadorId.of(event.getJugadorId()));
@@ -81,7 +69,7 @@ public class JuegoChange extends EventChange {
                     .filter(carta1 -> carta1.identity().value().equals(event.getCartaId()))
                     .findFirst()
                     .orElseThrow();
-            if(juego.tablero.habilitado().value()){
+            if(Boolean.TRUE.equals(juego.tablero.habilitado().value())){
                 jugador.quitarCartaAJugador(carta);
                 juego.tablero.cartaMap().put(jugador.identity(),carta);
             }
@@ -89,7 +77,7 @@ public class JuegoChange extends EventChange {
 
         apply((CartasAgregadasAJugador event)->{
             var jugador = juego.buscarJugadorPorId(event.getJugadorId());
-            event.getCartaFactory().cartas().forEach(carta -> jugador.agregarCartaAJugador(carta));
+            event.getCartaFactory().cartas().forEach(jugador::agregarCartaAJugador);
         });
 
         apply((CartaQuitada event)->{
@@ -101,6 +89,8 @@ public class JuegoChange extends EventChange {
             var jugador = juego.buscarJugadorPorId(event.getJugadorId());
             juego.tablero.cartaMap().put(jugador.identity(),event.getCarta());
         });
+
+
 
     }
 

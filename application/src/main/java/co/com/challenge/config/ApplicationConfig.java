@@ -1,7 +1,7 @@
 package co.com.challenge.config;
 
 import co.com.challenge.services.JuegoActivoQueryService;
-import co.com.challenge.services.JugadorCartasQueryService;
+import co.com.challenge.services.JuegoActualQueryService;
 import co.com.challenge.usecase.RepartirCartasUseCase;
 import co.com.challenge.usecase.listeners.*;
 import co.com.sofka.business.generic.ServiceBuilder;
@@ -74,7 +74,7 @@ public class ApplicationConfig {
     @Bean
     public ServiceBuilder serviceBuilder(
             JuegoActivoQueryService juegoActivoQueryService,
-            JugadorCartasQueryService jugadorCartasQueryService
+            JuegoActualQueryService jugadorCartasQueryService
     ) {
         ServiceBuilder serviceBuilder = new ServiceBuilder();
         serviceBuilder.addService(juegoActivoQueryService);
