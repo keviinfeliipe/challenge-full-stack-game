@@ -142,6 +142,10 @@ public class Juego extends AggregateEvent<JuegoId> {
         appendChange(new CartaAgregadaAlTablero(jugadorId, carta)).apply();
     }
 
+    public void mostrarCartasApostadas(){
+        appendChange(new CartasApostadasMostradas()).apply();
+    }
+
     public void agregarCartasMazoPrincipal(CartaFactory factory){
         factory.cartas().forEach(carta -> mazo.agregarCarta(carta));
     }

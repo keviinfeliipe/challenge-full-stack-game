@@ -91,7 +91,8 @@ public class ApplicationConfig {
             DescontarTiempoUseCase DescontarTiempoUseCase,
             DeterminarGanadorDeRondaUseCase determinarGanadorUseCase,
             ValidarTiempoUseCase validarTiempoUseCase,
-            ValidarCartasApostadasUseCase validarCartasApostadasUseCase
+            ValidarCartasApostadasUseCase validarCartasApostadasUseCase,
+            MostrarCartasApostadasUseCase mostrarCartasApostadasUseCase
     ) {
         return Set.of(
                 new UseCase.UseCaseWrap("juego.CartasRepartidas", (UseCase) crearTableroUseCase),
@@ -100,7 +101,8 @@ public class ApplicationConfig {
                 new UseCase.UseCaseWrap("juego.CronometroIniciado", (UseCase) DescontarTiempoUseCase),
                 new UseCase.UseCaseWrap("juego.TiempoDescontado", (UseCase) validarTiempoUseCase),
                 new UseCase.UseCaseWrap("juego.TiempoTerminado", (UseCase) validarCartasApostadasUseCase),
-                new UseCase.UseCaseWrap("juego.CartaAlAzarSeleccionada", (UseCase) determinarGanadorUseCase)
+                new UseCase.UseCaseWrap("juego.CartaAlAzarSeleccionada", (UseCase) mostrarCartasApostadasUseCase),
+                new UseCase.UseCaseWrap("juego.CartasApostadasMostradas", (UseCase) determinarGanadorUseCase)
         );
     }
 

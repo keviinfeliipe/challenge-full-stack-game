@@ -4,7 +4,7 @@ import co.com.challenge.model.juego.Carta;
 import co.com.challenge.model.juego.CartaFactory;
 import co.com.challenge.model.juego.Juego;
 import co.com.challenge.model.juego.Jugador;
-import co.com.challenge.model.juego.event.CartaAlAzarSeleccionada;
+import co.com.challenge.model.juego.event.CartasApostadasMostradas;
 import co.com.challenge.model.juego.value.JuegoId;
 import co.com.challenge.model.juego.value.JugadorId;
 import co.com.sofka.business.generic.UseCase;
@@ -14,9 +14,9 @@ import co.com.sofka.business.support.TriggeredEvent;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class DeterminarGanadorDeRondaUseCase extends UseCase<TriggeredEvent<CartaAlAzarSeleccionada>, ResponseEvents> {
+public class DeterminarGanadorDeRondaUseCase extends UseCase<TriggeredEvent<CartasApostadasMostradas>, ResponseEvents> {
     @Override
-    public void executeUseCase(TriggeredEvent<CartaAlAzarSeleccionada> triggeredEvent) {
+    public void executeUseCase(TriggeredEvent<CartasApostadasMostradas> triggeredEvent) {
         var event = triggeredEvent.getDomainEvent();
         var juegoId = JuegoId.of(event.aggregateRootId());
         var events = repository().getEventsBy("juego", juegoId.value());

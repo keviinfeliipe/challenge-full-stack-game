@@ -18,6 +18,14 @@ public class Carta extends Entity<CartaId> {
         this.habilitada = new EstaHabilitada(true);
     }
 
+    public void mostrarCarta(){
+        this.oculta = new EstaOculta(false);
+    }
+
+    public void ocultarCarta(){
+        this.oculta = new EstaOculta(true);
+    }
+
     public Integer xp() {
         return xp;
     }

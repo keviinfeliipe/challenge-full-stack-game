@@ -30,6 +30,10 @@ public class JuegoChange extends EventChange {
             juego.jugadores.add(new Jugador(id,alias));
         });
 
+        apply((JuegoIniciado event)->{
+            juego.jugando=true;
+        });
+
         apply((TableroCreado event)-> juego.tablero= new Tablero());
 
         apply((RondaCreada event)->{
@@ -61,7 +65,10 @@ public class JuegoChange extends EventChange {
             juego.tablero=new Tablero();
         });
 
-        apply((GanadorDeJuegoDeterminado event)-> juego.ganador=event.getGanador());
+        apply((GanadorDeJuegoDeterminado event)-> {
+            juego.ganador=event.getGanador();
+            juego.jugando=false;
+        });
 
         apply((CartaJugada event)->{
             var jugador = juego.buscarJugadorPorId(JugadorId.of(event.getJugadorId()));
@@ -88,6 +95,10 @@ public class JuegoChange extends EventChange {
         apply((CartaAgregadaAlTablero event)->{
             var jugador = juego.buscarJugadorPorId(event.getJugadorId());
             juego.tablero.cartaMap().put(jugador.identity(),event.getCarta());
+        });
+
+        apply((CartasApostadasMostradas event)->{
+            juego.tablero.cartaMap().forEach((jugadorId, carta) -> carta.mostrarCarta());
         });
 
 
