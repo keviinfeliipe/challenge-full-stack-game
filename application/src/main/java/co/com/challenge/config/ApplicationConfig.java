@@ -46,6 +46,7 @@ public class ApplicationConfig {
 
     private String origin = "*";
     public static final String EXCHANGE = "juego-heroes";
+    //test
 
     @Bean
     public MongoDBSecret dbSecret(Environment env) {
